@@ -1,0 +1,15 @@
+[Unit]
+Description=Laravel Horizon — Reeni CMS queue worker
+After=redis-server.service mysql.service
+Wants=redis-server.service mysql.service
+
+[Service]
+Type=simple
+User=ubuntu
+Group=ubuntu
+Restart=always
+RestartSec=3
+ExecStart=/usr/bin/php /var/www/reeni-cms/artisan horizon
+
+[Install]
+WantedBy=multi-user.target
