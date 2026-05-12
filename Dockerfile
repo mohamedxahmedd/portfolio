@@ -20,23 +20,23 @@ RUN npm run build
 # ─────────────────────────────────────────────────────────────────────────────
 # 2) vendor stage — Composer dependencies with PHP 8.4
 # ─────────────────────────────────────────────────────────────────────────────
-FROM php:8.4-cli-alpine AS vendor
+FROM php:8.4-cli AS vendor
 
 WORKDIR /app
 
-RUN apk add --no-cache \
+RUN apt-get update && apt-get install -y \
     git \
     unzip \
-    icu-dev \
-    oniguruma-dev \
+    libicu-dev \
     libzip-dev \
-    mysql-client \
-    $PHPIZE_DEPS \
+    default-mysql-client \
     && docker-php-ext-configure intl \
     && docker-php-ext-install intl exif pcntl pdo_mysql zip bcmath opcache \
     && php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
     && php composer-setup.php --install-dir=/usr/local/bin --filename=composer \
-    && rm composer-setup.php
+    && rm composer-setup.php \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 COPY composer.json composer.lock ./
 
@@ -53,22 +53,21 @@ RUN composer install \
 # ─────────────────────────────────────────────────────────────────────────────
 # 3) runtime stage — PHP 8.4 + Apache
 # ─────────────────────────────────────────────────────────────────────────────
-FROM php:8.4-apache-alpine
+FROM php:8.4-apache
 
 WORKDIR /var/www/html
 
-RUN apk add --no-cache \
+RUN apt-get update && apt-get install -y \
     git \
     unzip \
-    icu-dev \
-    icu-libs \
-    oniguruma-dev \
+    libicu-dev \
     libzip-dev \
-    mysql-client \
-    $PHPIZE_DEPS \
+    default-mysql-client \
     && docker-php-ext-configure intl \
     && docker-php-ext-install intl exif pcntl pdo_mysql zip bcmath opcache \
-    && a2enmod rewrite
+    && a2enmod rewrite \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 COPY . .
 
@@ -85,8 +84,8 @@ RUN chown -R www-data:www-data storage bootstrap/cache \
     && find storage -type f -exec chmod 664 {} \; \
     && chmod -R 775 bootstrap/cache
 
-RUN sed -i 's!/var/www/localhost/htdocs!/var/www/html/public!g' /etc/apache2/httpd.conf \
-    && sed -i 's!AllowOverride None!AllowOverride All!g' /etc/apache2/httpd.conf
+RUN sed -i 's!/var/www/html!/var/www/html/public!g' /etc/apache2/sites-available/000-default.conf \
+    && printf '\n<Directory /var/www/html/public>\n    AllowOverride All\n    Require all granted\n</Directory>\n' >> /etc/apache2/apache2.conf
 
 EXPOSE 80
 
@@ -95,4 +94,4 @@ CMD php artisan storage:link 2>/dev/null || true ; \
     php artisan config:cache && \
     php artisan route:cache && \
     php artisan view:cache && \
-    httpd -D FOREGROUND
+    apache2-foreground
