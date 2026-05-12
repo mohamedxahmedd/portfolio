@@ -71,6 +71,8 @@ RUN apt-get update && apt-get install -y \
 
 COPY . .
 
+RUN rm -f public/hot
+
 COPY --from=vendor /app/vendor ./vendor
 COPY --from=assets /app/public/build ./public/build
 
