@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1.6
 
 # ─────────────────────────────────────────────────────────────────────────────
-# 1) assets stage — build Vite output
+# 1) assets stage — build Vite output with Node 20
 # ─────────────────────────────────────────────────────────────────────────────
 FROM node:20-alpine AS assets
 
@@ -18,29 +18,21 @@ RUN npm run build
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# 2) vendor stage — Composer dependencies with PHP 8.4
+# 2) vendor stage — production Composer dependencies
 # ─────────────────────────────────────────────────────────────────────────────
-FROM php:8.4-cli-alpine AS vendor
+FROM composer:2 AS vendor
 
 WORKDIR /app
 
-RUN apk add --no-cache \
-    git \
-    unzip \
-    icu-dev \
-    oniguruma-dev \
-    libzip-dev \
-    mysql-client \
-    $PHPIZE_DEPS \
+# Install PHP extensions required by your locked Composer packages:
+# - intl: required by Filament
+# - exif: required by Spatie Image / Media Library
+# - pcntl: required by Laravel Horizon
+RUN apk add --no-cache icu-dev \
     && docker-php-ext-configure intl \
-    && docker-php-ext-install intl exif pcntl pdo_mysql zip bcmath opcache \
-    && php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
-    && php composer-setup.php --install-dir=/usr/local/bin --filename=composer \
-    && rm composer-setup.php
+    && docker-php-ext-install intl exif pcntl
 
 COPY composer.json composer.lock ./
-
-ENV COMPOSER_ALLOW_SUPERUSER=1
 
 RUN composer install \
     --no-dev \
@@ -51,42 +43,38 @@ RUN composer install \
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# 3) runtime stage — PHP 8.4 + Apache
+# 3) runtime stage — nginx + PHP-FPM
 # ─────────────────────────────────────────────────────────────────────────────
-FROM php:8.4-apache-alpine
+FROM richarvey/nginx-php-fpm:latest
 
 WORKDIR /var/www/html
 
-RUN apk add --no-cache \
-    git \
-    unzip \
-    icu-dev \
-    icu-libs \
-    oniguruma-dev \
-    libzip-dev \
-    mysql-client \
-    $PHPIZE_DEPS \
+# Install runtime PHP extensions/libraries needed by Laravel packages.
+# richarvey image is Alpine-based, so apk is used.
+RUN apk add --no-cache icu-dev icu-libs \
     && docker-php-ext-configure intl \
-    && docker-php-ext-install intl exif pcntl pdo_mysql zip bcmath opcache \
-    && a2enmod rewrite
+    && docker-php-ext-install intl exif pcntl
 
 COPY . .
 
 COPY --from=vendor /app/vendor ./vendor
 COPY --from=assets /app/public/build ./public/build
 
-ENV COMPOSER_ALLOW_SUPERUSER=1
+RUN composer dump-autoload \
+    --optimize \
+    --no-dev \
+    --classmap-authoritative \
+    --no-interaction
 
-RUN php artisan package:discover --ansi || true \
-    && php artisan optimize:clear || true
-
-RUN chown -R www-data:www-data storage bootstrap/cache \
+RUN chown -R nginx:nginx storage bootstrap/cache \
     && find storage -type d -exec chmod 775 {} \; \
     && find storage -type f -exec chmod 664 {} \; \
     && chmod -R 775 bootstrap/cache
 
-RUN sed -i 's!/var/www/localhost/htdocs!/var/www/html/public!g' /etc/apache2/httpd.conf \
-    && sed -i 's!AllowOverride None!AllowOverride All!g' /etc/apache2/httpd.conf
+ENV WEBROOT=/var/www/html/public \
+    PHP_ERRORS_STDERR=1 \
+    REAL_IP_HEADER=1 \
+    RUN_SCRIPTS=0
 
 EXPOSE 80
 
@@ -95,4 +83,4 @@ CMD php artisan storage:link 2>/dev/null || true ; \
     php artisan config:cache && \
     php artisan route:cache && \
     php artisan view:cache && \
-    httpd -D FOREGROUND
+    /start.sh
