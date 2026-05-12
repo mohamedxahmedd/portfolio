@@ -1,23 +1,4 @@
 # syntax=docker/dockerfile:1.6
-# ============================================================================
-#  Mohamed's Portfolio — production Dockerfile
-#
-#  Works for Docker hosting such as Back4app Containers or Render Web Service.
-#
-#  Three-stage build:
-#    1) assets   — compiles Vite assets with Node 20.
-#    2) vendor   — installs production Composer dependencies.
-#    3) runtime  — nginx + PHP-FPM via richarvey/nginx-php-fpm.
-#
-#  Runtime steps:
-#    - storage:link
-#    - migrate --force
-#    - config:cache
-#    - route:cache
-#    - view:cache
-#    - /start.sh
-# ============================================================================
-
 
 # ─────────────────────────────────────────────────────────────────────────────
 # 1) assets stage — build Vite output with Node 20
@@ -43,7 +24,16 @@ FROM composer:2 AS vendor
 
 WORKDIR /app
 
+# Install PHP extensions required by your locked Composer packages:
+# - intl: required by Filament
+# - exif: required by Spatie Image / Media Library
+# - pcntl: required by Laravel Horizon
+RUN apk add --no-cache icu-dev \
+    && docker-php-ext-configure intl \
+    && docker-php-ext-install intl exif pcntl
+
 COPY composer.json composer.lock ./
+
 RUN composer install \
     --no-dev \
     --optimize-autoloader \
@@ -58,6 +48,12 @@ RUN composer install \
 FROM richarvey/nginx-php-fpm:latest
 
 WORKDIR /var/www/html
+
+# Install runtime PHP extensions/libraries needed by Laravel packages.
+# richarvey image is Alpine-based, so apk is used.
+RUN apk add --no-cache icu-dev icu-libs \
+    && docker-php-ext-configure intl \
+    && docker-php-ext-install intl exif pcntl
 
 COPY . .
 
