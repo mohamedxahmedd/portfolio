@@ -76,13 +76,21 @@ COPY --from=assets /app/public/build ./public/build
 
 ENV COMPOSER_ALLOW_SUPERUSER=1
 
-RUN php artisan package:discover --ansi || true \
-    && php artisan optimize:clear || true
+# Laravel requires these folders for cache, views, sessions, logs, and testing.
+RUN mkdir -p \
+    storage/framework/cache/data \
+    storage/framework/sessions \
+    storage/framework/views \
+    storage/logs \
+    bootstrap/cache
 
 RUN chown -R www-data:www-data storage bootstrap/cache \
     && find storage -type d -exec chmod 775 {} \; \
     && find storage -type f -exec chmod 664 {} \; \
     && chmod -R 775 bootstrap/cache
+
+RUN php artisan package:discover --ansi || true \
+    && php artisan optimize:clear || true
 
 RUN sed -i 's!/var/www/html!/var/www/html/public!g' /etc/apache2/sites-available/000-default.conf \
     && printf '\n<Directory /var/www/html/public>\n    AllowOverride All\n    Require all granted\n</Directory>\n' >> /etc/apache2/apache2.conf
@@ -90,6 +98,8 @@ RUN sed -i 's!/var/www/html!/var/www/html/public!g' /etc/apache2/sites-available
 EXPOSE 80
 
 CMD php artisan storage:link 2>/dev/null || true ; \
+    mkdir -p storage/framework/cache/data storage/framework/sessions storage/framework/views storage/logs bootstrap/cache && \
+    chown -R www-data:www-data storage bootstrap/cache && \
     php artisan migrate --force --no-interaction && \
     php artisan config:cache && \
     php artisan route:cache && \
