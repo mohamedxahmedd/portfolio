@@ -491,7 +491,8 @@ Alpine.start();
    Alpine — so reveals work even on elements outside any x-data scope.
    ════════════════════════════════════════════════════════════════ */
 function bootRevealObserver() {
-    const targets = document.querySelectorAll('.reveal:not(.is-visible), .stagger:not(.is-visible)');
+    const selector = '.reveal:not(.is-visible), .stagger:not(.is-visible), .clip-reveal:not(.is-visible)';
+    const targets = document.querySelectorAll(selector);
     if (!targets.length) return;
 
     if (prefersReducedMotion || !('IntersectionObserver' in window)) {
@@ -526,7 +527,7 @@ document.addEventListener('livewire:navigated', bootRevealObserver);
    never see a blank section. */
 window.addEventListener('load', () => {
     setTimeout(() => {
-        document.querySelectorAll('.reveal:not(.is-visible), .stagger:not(.is-visible)')
+        document.querySelectorAll('.reveal:not(.is-visible), .stagger:not(.is-visible), .clip-reveal:not(.is-visible)')
             .forEach((el) => el.classList.add('is-visible'));
     }, 2500);
 });
