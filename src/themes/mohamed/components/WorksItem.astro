@@ -1,0 +1,42 @@
+---
+/* One project row in the template's "works" list. */
+import { asset } from '../icons.js';
+
+interface Props {
+    project: any;
+    index: number;
+    /** Home page: clicking the image opens it in the lightbox instead of the project page. */
+    imageLightbox?: boolean;
+}
+
+const { project, index, imageLightbox = false } = Astro.props;
+// Projects without a thumbnail fall back to the template's sample artwork.
+const cover = project.thumbnail ?? asset(`images/section/works-${(index % 3) + 1}.webp`);
+const kicker = project.subtitle ?? project.platform ?? 'Mobile App';
+---
+
+<div class="works-item scrolling-effect effectLeft" data-project-card data-techs={project.technologies.map((t: any) => t.slug).join(' ')}>
+    {
+        imageLightbox ? (
+            <a class="image" href={cover} data-lightbox="works" data-title={project.title}>
+                <img src={cover} alt={project.title} loading="lazy" decoding="async" />
+            </a>
+        ) : (
+            <a class="image" href={project.url}>
+                <img src={cover} alt={project.title} loading="lazy" decoding="async" />
+            </a>
+        )
+    }
+    <div class="content">
+        <div class="infor">
+            <div class="sub-heading sub">{kicker}</div>
+            <h3 class="title">
+                <a href={project.url}>{project.title}</a>
+            </h3>
+            {project.year && <a href={project.url} class="link date text-body-2 type-tags">{project.year}</a>}
+        </div>
+        <a href={project.url} class="btn-links" aria-label={`View ${project.title}`}>
+            <i class="icon icon-arrow-top-right"></i>
+        </a>
+    </div>
+</div>

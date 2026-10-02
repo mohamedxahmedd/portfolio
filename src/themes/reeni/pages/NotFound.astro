@@ -1,0 +1,19 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Page not found">
+    <section class="relative min-h-[80vh] flex items-center justify-center px-6 pt-32 pb-20 overflow-hidden text-center">
+        <div class="orb top-1/4 -right-32 size-[28rem] bg-brand-500/20"></div>
+        <div class="orb bottom-0 -left-32 size-[26rem] bg-brand-700/15" style="animation-delay: -7s"></div>
+        <div class="relative reveal">
+            <p class="section-eyebrow">Error 404</p>
+            <h1 class="display text-7xl md:text-9xl text-gradient-brand">404</h1>
+            <p class="mt-4 text-lg text-ink-300">This page doesn't exist — it may have been moved or renamed.</p>
+            <div class="mt-8 flex flex-wrap justify-center gap-4">
+                <a href="/" class="btn-primary"><span><i class="fas fa-home"></i> Back home</span></a>
+                <a href="/projects" class="btn-ghost"><span>Browse projects <i class="fas fa-arrow-right"></i></span></a>
+            </div>
+        </div>
+    </section>
+</BaseLayout>

@@ -1,0 +1,73 @@
+---
+/*
+ * Home-page section navigation: right-side icon rail + off-canvas mobile menu.
+ * Links are in-page anchors handled by the template's main.js (scroll-to, stickyTabs).
+ */
+import SocialLinks from './SocialLinks.astro';
+import { asset } from '../icons.js';
+
+const sections = [
+    { id: 'home', icon: 'icon-home-solid', label: 'Home' },
+    { id: 'experience', icon: 'icon-briefcase-solid', label: 'Experience' },
+    { id: 'works', icon: 'icon-tasks-solid', label: 'Works' },
+    { id: 'services', icon: 'icon-stream-solid', label: 'Services' },
+    { id: 'about', icon: 'icon-user-solid', label: 'About' },
+    { id: 'testimonial', icon: 'icon-poll-h-solid', label: 'Testimonials' },
+    { id: 'contact', icon: 'icon-envelope-solid', label: 'Contact' },
+];
+
+interface Props {
+    /** Sections that are actually rendered (e.g. no testimonials → no link). */
+    available: string[];
+}
+
+const items = sections.filter((s) => Astro.props.available.includes(s.id));
+---
+
+<!-- Mobile menu trigger -->
+<div class="tf-btn-menu" role="button" tabindex="0" aria-label="Open menu">
+    <img src={asset('icons/dashboard.svg')} alt="" />
+</div>
+
+<!-- Off-canvas mobile sidebar -->
+<div class="tf-sidebar-menu tf-canvas">
+    <div class="overlay"></div>
+    <div class="sidebar-menu-inner">
+        <div class="sidebar-wrap">
+            <div class="sidebar-heading">
+                <div class="heading text-body-1 dot-before">Menu</div>
+                <span class="close-canvas" role="button" aria-label="Close menu"><i class="icon icon-times-solid"></i></span>
+            </div>
+            <ul class="sidebar-nav nav-scroll">
+                {
+                    items.map((s, i) => (
+                        <li>
+                            <a class:list={['scroll-to', i === 0 && 'active']} href={`#${s.id}`}>
+                                <i class={`icon ${s.icon}`} />
+                                <span class="text-body-2">{s.label}</span>
+                            </a>
+                        </li>
+                    ))
+                }
+            </ul>
+        </div>
+        <div class="sidebar-social">
+            <div class="heading text-body-1 dot-before">Social Network</div>
+            <SocialLinks />
+        </div>
+    </div>
+</div>
+
+<!-- Right-side icon nav -->
+<ul class="right-nav nav-scroll">
+    {
+        items.map((s, i) => (
+            <li>
+                <a class:list={['scroll-to', i === 0 && 'active']} href={`#${s.id}`} aria-label={s.label}>
+                    <i class={`icon ${s.icon}`} />
+                    <span class="tooltip text-body-3">{s.label}</span>
+                </a>
+            </li>
+        ))
+    }
+</ul>

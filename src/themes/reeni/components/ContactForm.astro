@@ -1,0 +1,64 @@
+---
+/* Static contact form — see src/lib/contact-form.js for how it sends. */
+import { profile } from '../../../data/profile.js';
+import { siteConfig } from '../../../config/site.js';
+
+const field = 'w-full bg-ink-900 border border-ink-700 rounded-lg px-4 py-3 text-ink-100 focus:border-brand-500 focus:ring-1 focus:ring-brand-500 outline-none transition';
+const label = 'block text-xs uppercase tracking-wider text-ink-400 mb-2';
+---
+
+<div data-contact>
+    <div data-contact-success hidden class="text-center py-10">
+        <div class="size-16 mx-auto rounded-full bg-brand-500/10 grid place-items-center text-brand-500 mb-4">
+            <i class="fas fa-check text-2xl"></i>
+        </div>
+        <div data-success-text="endpoint">
+            <h3 class="font-display text-2xl text-white">Message sent!</h3>
+            <p class="text-ink-300 mt-2">Thanks for reaching out — I'll respond within 24 hours.</p>
+        </div>
+        <div data-success-text="mailto">
+            <h3 class="font-display text-2xl text-white">Almost there!</h3>
+            <p class="text-ink-300 mt-2">Your email app should now be open with your message ready — just hit send. Didn't open? <a data-contact-mailto href={`mailto:${profile.contact.email}`} class="text-brand-500 underline">Click here</a> or write to <span class="text-white break-all">{profile.contact.email}</span>.</p>
+        </div>
+        <button type="button" data-contact-reset class="mt-6 btn-ghost text-sm"><span>Send another</span></button>
+    </div>
+
+    <form data-contact-form data-email={profile.contact.email} data-endpoint={siteConfig.contactForm.endpoint ?? ''} class="space-y-5">
+        <div class="grid md:grid-cols-2 gap-4">
+            <div>
+                <label for="contact-name" class={label}>Name *</label>
+                <input id="contact-name" name="name" type="text" required autocomplete="name" class={field} />
+            </div>
+            <div>
+                <label for="contact-email" class={label}>Email *</label>
+                <input id="contact-email" name="email" type="email" required autocomplete="email" class={field} />
+            </div>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-4">
+            <div>
+                <label for="contact-phone" class={label}>Phone</label>
+                <input id="contact-phone" name="phone" type="tel" autocomplete="tel" class={field} />
+            </div>
+            <div>
+                <label for="contact-subject" class={label}>Subject</label>
+                <input id="contact-subject" name="subject" type="text" class={field} />
+            </div>
+        </div>
+
+        <div>
+            <label for="contact-message" class={label}>Message *</label>
+            <textarea id="contact-message" name="message" required rows="5" class={`${field} resize-none`}></textarea>
+        </div>
+
+        <!-- Honeypot -->
+        <div class="hidden" aria-hidden="true">
+            <label>Website <input type="text" name="website" tabindex="-1" autocomplete="off" /></label>
+        </div>
+
+        <button type="submit" data-contact-submit class="btn-primary w-full">
+            <span data-state="idle"><i class="fas fa-paper-plane"></i> Send message</span>
+            <span data-state="sending" hidden><i class="fas fa-spinner fa-spin"></i> Sending…</span>
+        </button>
+    </form>
+</div>

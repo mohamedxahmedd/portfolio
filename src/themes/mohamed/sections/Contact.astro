@@ -1,0 +1,36 @@
+---
+import Column from '../components/Column.astro';
+import ContactForm from '../components/ContactForm.astro';
+import { profile } from '../../../data/profile.js';
+import { whatsappHref, mailtoHref } from '../../../lib/format.js';
+
+const { contact } = profile;
+---
+
+<section class="section-contact" id="contact">
+    <Column>
+        <div class="text-body-2 dot-before subtitle fw-medium">Contact</div>
+        <h2 class="title text-color-change fw-medium">Got a project? <br /> Let's build something amazing together.</h2>
+        <div class="contact-wrap">
+            <ContactForm />
+        </div>
+        <div class="more-infor contact-direct">
+            {
+                contact.email && (
+                    <a class="text-body-1 link" href={mailtoHref(contact.email)}>
+                        {contact.email}
+                        <i class="icon icon-arrow-top-right" />
+                    </a>
+                )
+            }
+            {
+                contact.whatsapp && (
+                    <a class="text-body-1 link" href={whatsappHref(contact.whatsapp)} target="_blank" rel="noopener">
+                        WhatsApp me
+                        <i class="icon icon-arrow-top-right" />
+                    </a>
+                )
+            }
+        </div>
+    </Column>
+</section>

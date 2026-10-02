@@ -1,0 +1,22 @@
+---
+import { profile } from '../../../data/profile.js';
+import { socialIcon } from '../icons.js';
+
+interface Props {
+    class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<ul class:list={['social-links', className]}>
+    {
+        profile.socials.map((link) => (
+            <li>
+                <a href={link.url} target="_blank" rel="noopener" aria-label={link.label}>
+                    <i class={socialIcon(link.platform)} />
+                </a>
+            </li>
+        ))
+    }
+</ul>

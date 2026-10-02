@@ -1,0 +1,47 @@
+---
+import { profile } from '../../../data/profile.js';
+import { yearRange } from '../../../lib/format.js';
+
+const columns = [
+    {
+        eyebrow: 'Career',
+        title: 'My Experience',
+        items: profile.experience.map((e) => ({ heading: e.role, sub: e.company, range: yearRange(e.start, e.end), text: e.description })),
+    },
+    {
+        eyebrow: 'Learning',
+        title: 'Education',
+        items: profile.education.map((e) => ({ heading: e.degree, sub: e.institution, range: yearRange(e.start, e.end), text: e.description })),
+    },
+];
+---
+
+<section class="section bg-ink-950 relative overflow-hidden">
+    <div class="orb top-1/4 -left-40 size-96 bg-brand-500/10" style="animation-delay: -3s"></div>
+    <div class="container-x grid lg:grid-cols-2 gap-12 relative">
+        {
+            columns.map((column) => (
+                <div>
+                    <div class="reveal mb-10">
+                        <p class="section-eyebrow">{column.eyebrow}</p>
+                        <h2 x-data="wordReveal" class="section-title">{column.title}</h2>
+                    </div>
+                    <div class="space-y-6 stagger">
+                        {column.items.map((item) => (
+                            <div x-data="cardFx(4)" class="tilt card lift glow-border">
+                                <div class="flex items-start justify-between gap-4 tilt-inner">
+                                    <div>
+                                        <h3 class="font-display text-xl text-white">{item.heading}</h3>
+                                        <p class="text-brand-500 text-sm font-semibold mt-1">{item.sub}</p>
+                                    </div>
+                                    <span class="pill text-ink-400 whitespace-nowrap">{item.range}</span>
+                                </div>
+                                {item.text && <p class="mt-3 text-sm text-ink-300 leading-relaxed">{item.text}</p>}
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            ))
+        }
+    </div>
+</section>

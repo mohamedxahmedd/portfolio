@@ -1,0 +1,46 @@
+---
+import Column from '../components/Column.astro';
+import { profile } from '../../../data/profile.js';
+
+const tags = profile.services.slice(0, 4);
+const stats = profile.stats.slice(0, 2);
+---
+
+<section class="section-hero" id="home">
+    <Column>
+        {profile.location && <div class="text-body-1 infor split-text split-lines-transform">{profile.location}</div>}
+        <div class="main-title">
+            <div class="text-body-1 dot-before subtitle">Introduction</div>
+            <h1 class="title split-text effect-right">{profile.headline}</h1>
+            <div class="text-body-2 text">{profile.shortBio}</div>
+        </div>
+        <div class="indicators">
+            <ul class="list-tags">
+                {
+                    tags.map((service, i) => (
+                        <li>
+                            <a class="text-body-2 wow fadeInUp" data-wow-delay={i > 0 ? `0.${i}s` : undefined} href="#services">
+                                {service.title}
+                            </a>
+                        </li>
+                    ))
+                }
+            </ul>
+            <div class="indicators-wrap">
+                {
+                    stats.map((stat, i) => (
+                        <div class:list={['indicators-item wow fadeInUp', i === 1 && 'type-1']} data-wow-delay={i > 0 ? `0.${i}s` : undefined}>
+                            <div class="text-body-1 dot-before indicators-title">{stat.label}</div>
+                            <div class="wg-counter style-1">
+                                <div class="flex align-items-center justify-content-end">
+                                    <div class="odometer text-display-2" data-number={stat.value}>0</div>
+                                    {stat.suffix && <span class="sub-odo text-display-2">{stat.suffix}</span>}
+                                </div>
+                            </div>
+                        </div>
+                    ))
+                }
+            </div>
+        </div>
+    </Column>
+</section>

@@ -1,0 +1,13 @@
+---
+/* One page per entry in src/data/pages.js (privacy policy, terms, …). */
+import SimplePage from '@theme/pages/SimplePage.astro';
+import { pages } from '../data/pages.js';
+
+export function getStaticPaths() {
+    return pages.map((page) => ({ params: { page: page.slug }, props: { page } }));
+}
+
+const { page } = Astro.props;
+---
+
+<SimplePage page={page} />

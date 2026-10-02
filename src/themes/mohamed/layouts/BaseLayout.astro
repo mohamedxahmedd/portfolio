@@ -1,0 +1,69 @@
+---
+/*
+ * Mohamed page shell. The design is a Bootstrap/jQuery/GSAP template whose
+ * vendor files live in public/themes/mohamed/ and are loaded as-is, in the
+ * order the template expects.
+ */
+import '../styles/overrides.css';
+import SeoHead from '../../../components/shared/SeoHead.astro';
+import BackgroundVideo from '../components/BackgroundVideo.astro';
+import { siteConfig } from '../../../config/site.js';
+import { asset } from '../icons.js';
+
+interface Props {
+    title?: string;
+    description?: string;
+    image?: string | null;
+}
+
+const { title, description, image } = Astro.props;
+
+const styles = ['css/bootstrap.css', 'css/styles.css', 'css/swiper-bundle.min.css', 'css/odometer.min.css', 'css/lightbox.min.css', 'css/animate.min.css', 'font/fonts.css', 'icons/icomoon/style.css'];
+
+const scripts = [
+    'js/bootstrap.min.js',
+    'js/jquery.min.js',
+    'js/lazysize.min.js',
+    'js/wow.min.js',
+    'js/swiper-bundle.min.js',
+    'js/swiper.js',
+    'js/gsap.min.js',
+    'js/Splitetext.js',
+    'js/ScrollTrigger.min.js',
+    'js/ScrollSmooth.js',
+    'js/handleeffectgsap.js',
+    'js/odometer.min.js',
+    'js/counter.js',
+    'js/infinityslide.js',
+    'js/plugin.js',
+    'js/lightbox.min.js',
+    'js/main.js',
+];
+---
+
+<!doctype html>
+<html lang={siteConfig.language}>
+    <head>
+        <SeoHead title={title} description={description} image={image} themeColor="#F3500F" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        {styles.map((href) => <link rel="stylesheet" href={asset(href)} />)}
+        <!-- Font Awesome: tech-stack icons come from src/data/technologies.js -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" referrerpolicy="no-referrer" />
+        <link rel="icon" type="image/png" href={asset('images/logo/favicon.png')} />
+        <link rel="apple-touch-icon" href={asset('images/logo/favicon.png')} />
+        <link rel="preload" as="image" href={asset('images/bg-3d/poster.webp')} />
+        <slot name="head" />
+    </head>
+
+    <body class="counter-scroll">
+        <div id="wrapper">
+            <BackgroundVideo />
+            <slot />
+        </div>
+
+        {scripts.map((src) => <script is:inline defer src={asset(src)}></script>)}
+        <script>
+            import '../scripts/theme.js';
+        </script>
+    </body>
+</html>

@@ -1,0 +1,35 @@
+---
+import { profile } from '../../../data/profile.js';
+import { pad2 } from '../../../lib/format.js';
+---
+
+{
+    profile.process?.length > 0 && (
+        <section class="section">
+            <div class="container-x">
+                <div class="text-center mb-14 reveal">
+                    <p class="section-eyebrow">My Process</p>
+                    <h2 x-data="wordReveal" class="section-title">
+                        How I <span class="text-gradient-brand">work</span>
+                    </h2>
+                    <p class="mt-4 text-ink-300 max-w-2xl mx-auto">A clear, transparent process from initial chat to App Store launch — built to ship beautiful apps on time.</p>
+                </div>
+
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 stagger">
+                    {profile.process.map((step, i) => (
+                        <div x-data="cardFx(6)" class="tilt card lift glow-border relative group">
+                            <span class="absolute -top-4 -right-4 size-12 rounded-full bg-brand-500/15 border border-brand-500/30 grid place-items-center text-brand-500 font-display font-bold text-sm tracking-wider depth-3">{pad2(i + 1)}</span>
+                            <div class="tilt-inner">
+                                <div class="size-14 rounded-2xl bg-brand-500/10 grid place-items-center text-brand-500 text-2xl mb-5 depth-3 group-hover:bg-brand-500 group-hover:text-white group-hover:rotate-6 group-hover:scale-110 transition-all duration-500">
+                                    <i class={step.icon} />
+                                </div>
+                                <h3 class="font-display text-xl text-white mb-2 depth-2 group-hover:text-brand-500 transition-colors">{step.title}</h3>
+                                <p class="text-sm text-ink-300 leading-relaxed">{step.text}</p>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </section>
+    )
+}

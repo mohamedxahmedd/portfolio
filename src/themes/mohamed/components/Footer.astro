@@ -1,0 +1,50 @@
+---
+/* Footer: scrolling call-to-action marquee. */
+import { profile } from '../../../data/profile.js';
+import { asset } from '../icons.js';
+
+interface Props {
+    href?: string;
+    label?: string;
+    /** Home page shows the signature + world-map backdrop. */
+    full?: boolean;
+}
+
+const { href = '/#contact', label = 'Book A Call', full = false } = Astro.props;
+---
+
+<footer class="tf-footer style-1">
+    <div class="tf-container">
+        <div class="row">
+            <div class="offset-xxl-5 col-xxl-7 offset-xl-4 col-xl-7 offset-lg-2 col-lg-8">
+                <a href={href} class="cta">
+                    {full && profile.signature && <img class="signature" src={profile.signature} alt="" loading="lazy" />}
+                    <div class="infiniteslide_wrap cta-infiniteslide style-1">
+                        <div class="infiniteslide">
+                            {
+                                Array.from({ length: 6 }, () => (
+                                    <>
+                                        <div class="marquee-child-item">
+                                            <div class="text-display-2">{label}</div>
+                                        </div>
+                                        <div class="marquee-child-item">
+                                            <div class="dot" />
+                                        </div>
+                                    </>
+                                ))
+                            }
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+    {
+        full && (
+            <>
+                <img src={asset('images/section/img-bg-2.webp')} alt="" class="map" loading="lazy" />
+                <div class="box-gradient2" />
+            </>
+        )
+    }
+</footer>

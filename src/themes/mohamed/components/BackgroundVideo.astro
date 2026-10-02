@@ -1,0 +1,8 @@
+---
+import { asset } from '../icons.js';
+---
+
+<!-- 3D video background (poster shows instantly while the video loads) -->
+<video class="body-overlay" muted autoplay loop playsinline preload="auto" poster={asset('images/bg-3d/poster.webp')} aria-hidden="true">
+    <source src={asset('images/bg-3d/video3.mp4')} type="video/mp4" />
+</video>

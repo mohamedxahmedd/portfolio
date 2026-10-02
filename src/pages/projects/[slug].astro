@@ -1,0 +1,16 @@
+---
+/*
+ * One page per project in src/data/projects.js, generated at build time.
+ * Adding a project to the data file is all it takes to get /projects/<slug>.
+ */
+import Project from '@theme/pages/Project.astro';
+import { getProjects } from '../../lib/portfolio.js';
+
+export function getStaticPaths() {
+    return getProjects().map((project) => ({ params: { slug: project.slug }, props: { project } }));
+}
+
+const { project } = Astro.props;
+---
+
+<Project project={project} />

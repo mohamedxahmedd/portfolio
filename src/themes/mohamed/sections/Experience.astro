@@ -1,0 +1,28 @@
+---
+import Column from '../components/Column.astro';
+import { profile } from '../../../data/profile.js';
+import { truncate, yearRange } from '../../../lib/format.js';
+---
+
+<section class="section-experiences" id="experience">
+    <Column>
+        <div class="text-body-2 dot-before subtitle">Experience</div>
+        <h2 class="desc text-color-change text-tab">
+            <span></span>
+            {truncate(profile.bio, 180)}
+        </h2>
+        <div class="experiences-wrap">
+            {
+                profile.experience.map((job) => (
+                    <div class="item scrolling-effect effectLeft">
+                        <div class="sub-heading text">{job.company}</div>
+                        <div class="job-title">
+                            <h6 class="title">{job.role}</h6>
+                            <div class="text-body-2 time-line type-tags">{yearRange(job.start, job.end)}</div>
+                        </div>
+                    </div>
+                ))
+            }
+        </div>
+    </Column>
+</section>

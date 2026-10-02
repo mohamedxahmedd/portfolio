@@ -1,0 +1,72 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Column from '../components/Column.astro';
+import WorksItem from '../components/WorksItem.astro';
+import Footer from '../components/Footer.astro';
+import { getProjects, getFilterTechnologies } from '../../../lib/portfolio.js';
+import { profile } from '../../../data/profile.js';
+
+const projects = getProjects();
+const technologies = getFilterTechnologies();
+---
+
+<BaseLayout title="All Projects" description={`Flutter mobile apps and projects built by ${profile.name}.`}>
+    <div class="main-content relative">
+        <section class="section-hero" id="home">
+            <Column>
+                <a href="/" class="text-body-1 subtitle project-back">
+                    <i class="icon icon-angle-left-solid"></i> Home
+                </a>
+                <div class="main-title">
+                    <div class="text-body-1 dot-before subtitle">Portfolio</div>
+                    <h1 class="title split-text effect-right">Mobile apps &amp; projects</h1>
+                    <div class="text-body-2 text">Flutter apps shipped to the App Store and Google Play, plus open-source experiments.</div>
+                </div>
+
+                {
+                    technologies.length > 0 && (
+                        <div class="indicators">
+                            <ul class="pill-list">
+                                <li>
+                                    <a class="text-body-2 is-active" href="/projects" data-tech-filter="all">
+                                        All
+                                    </a>
+                                </li>
+                                {technologies.map((tech) => (
+                                    <li>
+                                        <a class="text-body-2" href={`/projects?tech=${tech.slug}`} data-tech-filter={tech.slug}>
+                                            {tech.name}
+                                        </a>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    )
+                }
+            </Column>
+        </section>
+
+        <div class="wrapper-content relative overflow-hidden">
+            <section class="section-selected-works" id="works">
+                <Column>
+                    <div data-projects-empty hidden class="text-body-2 text" style="padding: 80px 0; text-align: center; opacity: 0.7;">No projects found for this filter.</div>
+                    {
+                        projects.length === 0 ? (
+                            <div class="text-body-2 text" style="padding: 80px 0; text-align: center; opacity: 0.7;">
+                                No projects yet.
+                            </div>
+                        ) : (
+                            <div class="works-wrap">
+                                {projects.map((project, i) => (
+                                    <WorksItem project={project} index={i} />
+                                ))}
+                            </div>
+                        )
+                    }
+                </Column>
+            </section>
+        </div>
+    </div>
+
+    <Footer />
+</BaseLayout>

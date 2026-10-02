@@ -1,0 +1,36 @@
+---
+import Column from '../components/Column.astro';
+import WorksItem from '../components/WorksItem.astro';
+import { getHomeProjects } from '../../../lib/portfolio.js';
+
+const projects = getHomeProjects();
+---
+
+<section class="section-selected-works" id="works">
+    <Column>
+        <div class="banner-slider">
+            <div class="text-container scroll-banners effect-right">
+                {
+                    Array.from({ length: 6 }, () => (
+                        <>
+                            <span class="banner-text text-display-2 fw-medium">Selected Work</span>
+                            <span class="banner-img">
+                                <span class="dot-circle" />
+                            </span>
+                        </>
+                    ))
+                }
+            </div>
+        </div>
+        <div class="works-wrap">
+            {projects.map((project, i) => <WorksItem project={project} index={i} imageLightbox />)}
+        </div>
+        <div class="works-more">
+            <a class="text-body-1 link" href="/projects">
+                View all projects
+                <i class="icon icon-arrow-top-right"></i>
+            </a>
+        </div>
+    </Column>
+</section>
+<div class="box-gradient1 img_bg-1"></div>

@@ -1,0 +1,93 @@
+/*
+ * Small additions on top of the template's styles.css (public/themes/mohamed/css),
+ * for markup the template didn't ship: tech filter, store buttons, contact form
+ * extras, testimonial initials, rich-text pages.
+ */
+
+/* The template's colour/3D switcher panel isn't used. */
+.tf-setting-color { display: none !important; }
+
+/* Long email addresses wrap instead of overflowing the profile card. */
+.left-sidebar .infor .mail { overflow-wrap: anywhere; }
+
+/* ── Contact form ─────────────────────────────── */
+.form-contact .fiel-name,
+.form-contact .fiel-subject { margin-bottom: 37px; }
+.form-contact .bot-btn button { justify-content: space-between; max-width: 100%; }
+.form-contact .bot-btn button[disabled] { opacity: 0.6; }
+.contact-success { padding: 24px 0 8px; }
+.contact-success h4 { margin-bottom: 12px; }
+.contact-success p { color: #BBBBBB; margin-bottom: 24px; }
+.contact-success p a { color: var(--primary); }
+.contact-success button { background: none; border: 0; padding: 0; color: #fff; display: inline-flex; gap: 8px; align-items: center; }
+.contact-success button:hover { color: var(--primary); }
+.contact-direct { display: flex; flex-wrap: wrap; gap: 16px 32px; margin-top: 40px; }
+.contact-direct .link { word-break: break-all; }
+
+/* ── "View all projects" under the home works list ── */
+.works-more { margin-top: 40px; }
+
+/* ── Tech stack slider icons (Font Awesome) ───── */
+.tech-stack-icon { display: grid; place-items: center; height: 140px; font-size: 64px; }
+
+/* ── Testimonial initials (no avatar image): fills the portrait card ── */
+.customer-initials {
+    display: grid;
+    place-items: center;
+    width: 100%;
+    height: 370px;
+    padding-bottom: 60px; /* keep clear of the name overlay */
+    background: linear-gradient(160deg, var(--primary), #151515);
+    color: #fff;
+    font-size: 96px;
+    font-weight: 500;
+    letter-spacing: -2px;
+}
+
+/* ── Pill rows: project filter + tech tags ────── */
+.pill-list { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; padding: 0; margin: 0; }
+.pill-list a,
+.pill-list span {
+    display: inline-block;
+    padding: 8px 16px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 99px;
+    color: inherit;
+    transition: all 0.3s ease;
+}
+.pill-list a:hover { border-color: var(--primary); color: var(--primary); }
+.pill-list a.is-active { background: var(--primary); border-color: var(--primary); color: #fff; }
+
+/* ── Project page ─────────────────────────────── */
+.project-back { display: inline-flex; align-items: center; gap: 8px; margin-bottom: 24px; text-decoration: none; }
+.project-links { margin-top: 32px; display: flex; flex-wrap: wrap; gap: 12px; list-style: none; padding: 0; }
+.store-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 20px;
+    border-radius: 99px;
+    background: var(--primary);
+    color: #fff;
+    transition: opacity 0.3s ease;
+}
+.store-btn:hover { color: #fff; opacity: 0.85; }
+.store-btn i { font-size: 24px; }
+.store-btn .store-label { display: flex; flex-direction: column; line-height: 1.1; }
+.store-btn small { opacity: 0.8; font-size: 10px; }
+.store-btn.is-ghost { background: transparent; border: 1px solid currentColor; }
+.project-cover { display: block; border-radius: 24px; overflow: hidden; }
+.project-cover img { width: 100%; height: auto; }
+.project-block { margin-top: 32px; }
+.project-detail-list { display: flex; flex-wrap: wrap; gap: 8px 32px; margin-top: 24px; }
+.project-detail-list dt { color: #515151; font-weight: 400; }
+.project-detail-list dd { margin: 0; }
+.project-screens { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 16px; }
+.project-screens a { display: block; border-radius: 16px; overflow: hidden; aspect-ratio: 9 / 16; background: #151515; }
+.project-screens img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
+.project-screens a:hover img { transform: scale(1.05); }
+
+/* ── Rich-text pages (privacy, terms) ─────────── */
+.simple-page { overflow-wrap: anywhere; }
+.simple-page p { margin-bottom: 16px; line-height: 1.7; }
+.simple-page strong { color: #fff; }

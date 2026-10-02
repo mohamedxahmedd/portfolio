@@ -1,0 +1,61 @@
+---
+import Column from '../components/Column.astro';
+import { profile } from '../../../data/profile.js';
+import { initials } from '../../../lib/format.js';
+
+const testimonials = profile.testimonials ?? [];
+---
+
+{
+    testimonials.length > 0 && (
+        <section class="section-testimonial" id="testimonial">
+            <Column>
+                <div class="section-testimonial-inner">
+                    <div class="text-body-2 dot-before subtitle fw-medium">Testimonial</div>
+                    <div class="testimonial-wrap">
+                        <div class="swiper slider-testimonial">
+                            <div class="swiper-wrapper">
+                                {testimonials.map((t) => (
+                                    <div class="swiper-slide">
+                                        <h3 class="fw-medium text">&ldquo; {t.quote} &rdquo;</h3>
+                                    </div>
+                                ))}
+                            </div>
+                            <div class="box-nav style-2">
+                                <div class="nav-sw navigation-prev-testimonial" role="button" aria-label="Previous testimonial">
+                                    <span class="icon icon-angle-left-solid" />
+                                </div>
+                                <div class="swiper-pagination pagination-testimonial" />
+                                <div class="nav-sw navigation-next-testimonial" role="button" aria-label="Next testimonial">
+                                    <span class="icon icon-angle-right-solid" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="customer-wrap">
+                        <div class="swiper slider-customer">
+                            <div class="swiper-wrapper">
+                                {testimonials.map((t) => (
+                                    <div class="swiper-slide">
+                                        <div class="customer-info">
+                                            <div class="image">
+                                                {t.avatar ? <img src={t.avatar} alt={t.name} loading="lazy" /> : <span class="customer-initials">{initials(t.name)}</span>}
+                                            </div>
+                                            <div class="content">
+                                                <h6 class="name fw-medium">{t.name}</h6>
+                                                <div class="text-body-2 info">
+                                                    {t.role}
+                                                    {t.company ? ` · ${t.company}` : ''}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </Column>
+        </section>
+    )
+}

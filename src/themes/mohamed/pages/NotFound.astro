@@ -1,0 +1,25 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Column from '../components/Column.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<BaseLayout title="Page not found">
+    <div class="main-content relative">
+        <section class="section-hero" id="home">
+            <Column>
+                <div class="main-title">
+                    <div class="text-body-1 dot-before subtitle">Error 404</div>
+                    <h1 class="title split-text effect-right">Page not found</h1>
+                    <div class="text-body-2 text" style="margin-top: 16px;">This page doesn't exist — it may have been moved or renamed.</div>
+                </div>
+                <ul class="pill-list" style="margin-top: 32px;">
+                    <li><a class="text-body-2" href="/">Back home</a></li>
+                    <li><a class="text-body-2" href="/projects">Browse projects</a></li>
+                </ul>
+            </Column>
+        </section>
+    </div>
+
+    <Footer href="/" label="Back to home" />
+</BaseLayout>

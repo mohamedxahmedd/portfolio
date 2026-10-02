@@ -1,0 +1,27 @@
+---
+import { getTechStack } from '../../../lib/portfolio.js';
+
+const techList = getTechStack();
+---
+
+{
+    techList.length > 0 && (
+        <section class="py-12 border-y border-ink-800 bg-ink-950">
+            <div class="container-x">
+                <p class="text-center text-xs uppercase tracking-[0.4em] text-ink-500 mb-8">Tech Stack & Tools</p>
+                <div x-data="marqueeAccel(35)" class="marquee">
+                    <div class="marquee-track">
+                        {[0, 1].map((copy) =>
+                            techList.map((t) => (
+                                <span class="flex items-center gap-3 text-ink-300 whitespace-nowrap" aria-hidden={copy === 1 ? 'true' : undefined}>
+                                    <i class={`${t.icon} text-2xl text-brand-500`} />
+                                    <span class="font-display text-2xl tracking-wide">{t.name}</span>
+                                </span>
+                            )),
+                        )}
+                    </div>
+                </div>
+            </div>
+        </section>
+    )
+}

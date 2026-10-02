@@ -1,0 +1,34 @@
+---
+import Column from '../components/Column.astro';
+import { getTechStack } from '../../../lib/portfolio.js';
+
+const techList = getTechStack();
+---
+
+{
+    techList.length > 0 && (
+        <section class="section-tech-stack">
+            <Column>
+                <div class="text-display-2 fw-medium heading split-text effect-right">Tech Stack</div>
+                <div class="swiper slider-tech-stack">
+                    <div class="swiper-wrapper">
+                        {techList.map((tech) => (
+                            <div class="swiper-slide">
+                                <div class="tech-stack-item">
+                                    <h3 class="fw-medium title">{tech.name}</h3>
+                                    <div class="image tech-stack-icon">
+                                        <i class={tech.icon} style={`color: ${tech.color ?? 'var(--primary)'}`} />
+                                    </div>
+                                    <div class="text-body-1">
+                                        Used in {tech.projectCount} {tech.projectCount === 1 ? 'project' : 'projects'}
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                    <div class="swiper-pagination pagination-tech-stack" />
+                </div>
+            </Column>
+        </section>
+    )
+}
