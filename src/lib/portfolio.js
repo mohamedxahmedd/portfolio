@@ -80,10 +80,20 @@ export function getHomeProjects() {
 
 /** Up to `limit` other projects sharing at least one technology. */
 export function getRelatedProjects(project, limit = 3) {
-    const slugs = new Set(project.technologies.map((t) => t.slug));
+    // Technologies every project uses (e.g. Flutter, Dart) say nothing about relatedness.
+    const universal = new Set(
+        [...new Set(published.flatMap((p) => p.technologies.map((t) => t.slug)))].filter((slug) =>
+            published.every((p) => p.technologies.some((t) => t.slug === slug)),
+        ),
+    );
+    const slugs = new Set(project.technologies.map((t) => t.slug).filter((slug) => !universal.has(slug)));
     return published
-        .filter((p) => p.slug !== project.slug && p.technologies.some((t) => slugs.has(t.slug)))
-        .slice(0, limit);
+        .filter((p) => p.slug !== project.slug)
+        .map((p) => ({ p, shared: p.technologies.filter((t) => slugs.has(t.slug)).length }))
+        .filter(({ shared }) => shared > 0)
+        .sort((a, b) => b.shared - a.shared) // stable: ties keep projects.js order
+        .slice(0, limit)
+        .map(({ p }) => p);
 }
 
 /** The full tech stack from technologies.js, each with its project count. */

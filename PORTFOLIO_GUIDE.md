@@ -123,6 +123,10 @@ Second paragraph — separate paragraphs with a blank line.`,
 },
 ```
 
+If your screenshots are named `screen-01.webp`, `screen-02.webp`, … you can write
+`images: screens('my-new-project', 12),` instead of listing them one by one. `screens` is
+defined at the top of `projects.js`, and the number is how many screenshots there are.
+
 Save. That's it: the card, the `/projects` listing, the filter buttons and the page
 at **`/projects/my-new-project`** are all generated automatically. No page, route
 or component to create.

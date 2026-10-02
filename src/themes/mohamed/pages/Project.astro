@@ -110,11 +110,17 @@ const hasLinks = project.appStoreUrl || project.playStoreUrl || project.githubUr
             <section class="section-about">
                 <Column>
                     <div class="heading">
-                        {project.description && paragraphs(project.description).map((p) => <div class="text-body-2 text" style="margin-bottom: 16px;">{p}</div>)}
+                        {
+                            project.description && (
+                                <div class="project-description">
+                                    {paragraphs(project.description).map((p) => <div class="text-body-2 text" style="margin-bottom: 16px;">{p}</div>)}
+                                </div>
+                            )
+                        }
 
                         {
                             project.problem && (
-                                <div class="project-block">
+                                <div class="project-block is-full">
                                     <div class="text-body-2 dot-before subtitle fw-medium">The problem</div>
                                     <div class="text-body-2 text">{project.problem}</div>
                                 </div>
@@ -123,7 +129,7 @@ const hasLinks = project.appStoreUrl || project.playStoreUrl || project.githubUr
 
                         {
                             project.solution && (
-                                <div class="project-block">
+                                <div class="project-block is-full">
                                     <div class="text-body-2 dot-before subtitle fw-medium">The solution</div>
                                     <div class="text-body-2 text">{project.solution}</div>
                                 </div>
