@@ -1,0 +1,63 @@
+---
+import { profile } from '../../../data/profile.js';
+import { siteConfig } from '../../../config/site.js';
+import { socialIcon } from '../icons.js';
+
+const headerSocials = profile.socials.filter((s) => s.showInHeader);
+const links = [
+    { href: '/#about', label: 'About' },
+    { href: '/#services', label: 'Services' },
+    { href: '/projects', label: 'Projects' },
+    profile.testimonials?.length && { href: '/#testimonials', label: 'Testimonials' },
+    { href: '/#contact', label: 'Contact' },
+].filter(Boolean);
+---
+
+<header
+    x-data="{ open: false, scrolled: false }"
+    x-init="window.addEventListener('scroll', () => scrolled = window.scrollY > 12, { passive: true })"
+    :class="scrolled ? 'bg-ink-950/90 backdrop-blur border-ink-800' : 'bg-transparent border-transparent'"
+    class="fixed top-0 inset-x-0 z-50 border-b transition"
+>
+    <div class="container-x flex items-center justify-between py-4 px-6">
+        <a href="/" class="font-display text-2xl font-bold tracking-wider group">
+            <span class="inline-block transition-transform duration-300 group-hover:-translate-y-0.5">
+                {siteConfig.title}<span class="text-brand-500 inline-block transition-transform duration-300 group-hover:scale-150 origin-bottom-left">.</span>
+            </span>
+        </a>
+
+        <nav class="hidden md:flex items-center gap-8 text-sm font-medium">
+            {links.map((link) => <a href={link.href} class="nav-link">{link.label}</a>)}
+        </nav>
+
+        <div class="hidden md:flex items-center gap-3">
+            {
+                headerSocials.map((link) => (
+                    <a
+                        href={link.url}
+                        target="_blank"
+                        rel="noopener"
+                        class="size-9 grid place-items-center rounded-full border border-ink-700 text-ink-300 hover:border-brand-500 hover:text-brand-500 hover:scale-110 transition-all duration-300"
+                        aria-label={link.label}
+                    >
+                        <i class={socialIcon(link.platform)}></i>
+                    </a>
+                ))
+            }
+            <a href="/#contact" x-data="magnetic(0.18)" class="btn-primary text-sm">
+                <span><i class="fas fa-paper-plane"></i> Hire me</span>
+            </a>
+        </div>
+
+        <button @click="open = !open" class="md:hidden size-10 grid place-items-center" aria-label="Toggle menu" :aria-expanded="open">
+            <i class="fas" :class="open ? 'fa-times' : 'fa-bars'"></i>
+        </button>
+    </div>
+
+    <div x-show="open" x-transition x-cloak class="md:hidden bg-ink-950 border-t border-ink-800">
+        <nav class="container-x px-6 py-4 flex flex-col gap-3 text-sm">
+            {links.map((link) => <a href={link.href} @click="open = false" class="py-2 hover:text-brand-500">{link.label}</a>)}
+            <a href="/#contact" @click="open = false" class="btn-primary mt-2 text-sm">Hire me</a>
+        </nav>
+    </div>
+</header>

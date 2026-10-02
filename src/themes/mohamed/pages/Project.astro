@@ -1,0 +1,208 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Column from '../components/Column.astro';
+import WorksItem from '../components/WorksItem.astro';
+import Footer from '../components/Footer.astro';
+import { getRelatedProjects } from '../../../lib/portfolio.js';
+import { paragraphs, pad2 } from '../../../lib/format.js';
+
+interface Props {
+    project: any;
+}
+
+const { project } = Astro.props;
+const related = getRelatedProjects(project);
+const eyebrow = [project.year, project.platform ?? 'Mobile'].filter(Boolean).join(' · ');
+const details = [
+    ['Client', project.client],
+    ['Role', project.role],
+    ['Duration', project.duration],
+].filter(([, value]) => value);
+const hasLinks = project.appStoreUrl || project.playStoreUrl || project.githubUrl || project.liveUrl;
+---
+
+<BaseLayout title={project.title} description={project.shortDescription} image={project.thumbnail}>
+    <div class="main-content relative">
+        <section class="section-hero" id="home">
+            <Column>
+                <a href="/projects" class="text-body-1 subtitle project-back">
+                    <i class="icon icon-angle-left-solid"></i> All projects
+                </a>
+                <div class="main-title">
+                    <div class="text-body-1 dot-before subtitle">{eyebrow}</div>
+                    <h1 class="title split-text effect-right">{project.title}</h1>
+                    {project.subtitle && <div class="text-body-2 text" style="margin-top: 16px;">{project.subtitle}</div>}
+                    <div class="text-body-2 text" style="margin-top: 24px; max-width: 560px;">{project.shortDescription}</div>
+                </div>
+
+                {
+                    details.length > 0 && (
+                        <dl class="project-detail-list text-body-2">
+                            {details.map(([label, value]) => (
+                                <div>
+                                    <dt>{label}</dt>
+                                    <dd>{value}</dd>
+                                </div>
+                            ))}
+                        </dl>
+                    )
+                }
+
+                {
+                    hasLinks && (
+                        <ul class="project-links">
+                            {project.appStoreUrl && (
+                                <li>
+                                    <a class="store-btn text-body-2" href={project.appStoreUrl} target="_blank" rel="noopener">
+                                        <i class="icon icon-apple" />
+                                        <span class="store-label">
+                                            <small>Download on the</small>
+                                            <strong>App Store</strong>
+                                        </span>
+                                    </a>
+                                </li>
+                            )}
+                            {project.playStoreUrl && (
+                                <li>
+                                    <a class="store-btn text-body-2" href={project.playStoreUrl} target="_blank" rel="noopener">
+                                        <i class="fab fa-google-play" />
+                                        <span class="store-label">
+                                            <small>Get it on</small>
+                                            <strong>Google Play</strong>
+                                        </span>
+                                    </a>
+                                </li>
+                            )}
+                            {project.githubUrl && (
+                                <li>
+                                    <a class="store-btn is-ghost text-body-2" href={project.githubUrl} target="_blank" rel="noopener">
+                                        <i class="icon icon-github" /> View source
+                                    </a>
+                                </li>
+                            )}
+                            {project.liveUrl && (
+                                <li>
+                                    <a class="store-btn is-ghost text-body-2" href={project.liveUrl} target="_blank" rel="noopener">
+                                        <i class="icon icon-global" /> Live demo
+                                    </a>
+                                </li>
+                            )}
+                        </ul>
+                    )
+                }
+            </Column>
+        </section>
+
+        <div class="wrapper-content relative overflow-hidden">
+            {
+                project.thumbnail && (
+                    <section class="section-selected-works">
+                        <Column>
+                            <a class="project-cover" href={project.thumbnail} data-lightbox="cover" data-title={project.title}>
+                                <img src={project.thumbnail} alt={project.title} fetchpriority="high" />
+                            </a>
+                        </Column>
+                    </section>
+                )
+            }
+
+            <!-- Description body -->
+            <section class="section-about">
+                <Column>
+                    <div class="heading">
+                        {project.description && paragraphs(project.description).map((p) => <div class="text-body-2 text" style="margin-bottom: 16px;">{p}</div>)}
+
+                        {
+                            project.problem && (
+                                <div class="project-block">
+                                    <div class="text-body-2 dot-before subtitle fw-medium">The problem</div>
+                                    <div class="text-body-2 text">{project.problem}</div>
+                                </div>
+                            )
+                        }
+
+                        {
+                            project.solution && (
+                                <div class="project-block">
+                                    <div class="text-body-2 dot-before subtitle fw-medium">The solution</div>
+                                    <div class="text-body-2 text">{project.solution}</div>
+                                </div>
+                            )
+                        }
+
+                        {
+                            project.features.length > 0 && (
+                                <div class="project-block">
+                                    <div class="text-body-2 dot-before subtitle fw-medium">Key features</div>
+                                    <div class="experiences-wrap">
+                                        {project.features.map((feature: string, i: number) => (
+                                            <div class="item scrolling-effect effectLeft">
+                                                <div class="sub-heading text">{pad2(i + 1)}</div>
+                                                <div class="job-title">
+                                                    <h6 class="title">{feature}</h6>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            )
+                        }
+
+                        {
+                            project.technologies.length > 0 && (
+                                <div class="project-block">
+                                    <div class="text-body-2 dot-before subtitle fw-medium">Tech stack</div>
+                                    <ul class="pill-list">
+                                        {project.technologies.map((tech: any) => (
+                                            <li>
+                                                <a class="text-body-2" href={`/projects?tech=${tech.slug}`}>
+                                                    {tech.name}
+                                                </a>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            )
+                        }
+                    </div>
+                </Column>
+            </section>
+
+            <!-- Screenshots -->
+            {
+                project.images.length > 0 && (
+                    <section class="section-selected-works">
+                        <Column>
+                            <div class="text-body-2 dot-before subtitle fw-medium" style="margin-bottom: 24px;">Screens</div>
+                            <div class="project-screens">
+                                {project.images.map((shot: string, i: number) => (
+                                    <a href={shot} data-lightbox="screens" data-title={`${project.title} — screen ${i + 1}`}>
+                                        <img src={shot} alt={`${project.title} screenshot ${i + 1}`} loading="lazy" decoding="async" />
+                                    </a>
+                                ))}
+                            </div>
+                        </Column>
+                    </section>
+                )
+            }
+
+            <!-- Related projects -->
+            {
+                related.length > 0 && (
+                    <section class="section-selected-works">
+                        <Column>
+                            <div class="text-body-2 dot-before subtitle fw-medium">Related projects</div>
+                            <div class="works-wrap">
+                                {related.map((other, i) => (
+                                    <WorksItem project={other} index={i} />
+                                ))}
+                            </div>
+                        </Column>
+                    </section>
+                )
+            }
+        </div>
+    </div>
+
+    <Footer />
+</BaseLayout>

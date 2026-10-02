@@ -1,0 +1,39 @@
+---
+/* Fixed profile card on the left of the home page. */
+import SocialLinks from './SocialLinks.astro';
+import { profile } from '../../../data/profile.js';
+import { asset } from '../icons.js';
+
+const photo = profile.photo ?? asset('images/avatar/avatar-full.webp');
+// Lets long addresses wrap after the "@" instead of mid-word.
+const emailParts = profile.contact.email?.split('@');
+---
+
+<div class="left-sidebar">
+    <div class="heading">
+        <img src={asset('images/logo/logo-1.svg')} alt="" width="28" height="32" />
+        <div class="box-status">
+            <div class="dot"></div>
+            <div class="text-body-1">{profile.availability}</div>
+        </div>
+    </div>
+    <div class="image">
+        <div class="avatar avatar-wrap">
+            <img class="avatar-bg" src={photo} alt={profile.name} width="960" height="1280" fetchpriority="high" />
+        </div>
+        {profile.signature && <img class="signature" src={profile.signature} alt="" loading="lazy" />}
+    </div>
+    <div class="infor">
+        {
+            emailParts && (
+                <h6 class="mail letter-spacing-0">{emailParts[0]}@<wbr />{emailParts[1]}</h6>
+            )
+        }
+        {profile.location && <div class="text-body-2 address">Based in {profile.location}</div>}
+    </div>
+    <SocialLinks class="justify-content-center" />
+    <a href="#contact" class="bot-button">
+        <div class="text-body-1 text">Get Started</div>
+        <i class="icon icon-arrow-top-right"></i>
+    </a>
+</div>

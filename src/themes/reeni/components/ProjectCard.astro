@@ -1,0 +1,70 @@
+---
+import ProjectPlaceholder from './ProjectPlaceholder.astro';
+
+interface Props {
+    project: any;
+}
+
+const { project } = Astro.props;
+const shownTech = project.technologies.slice(0, 3);
+const extraTech = project.technologies.length - shownTech.length;
+---
+
+<a
+    href={project.url}
+    x-data="cardFx(6)"
+    data-cursor-text="View →"
+    data-project-card
+    data-techs={project.technologies.map((t: any) => t.slug).join(' ')}
+    class="tilt card lift glow-border group block p-0 overflow-hidden relative"
+>
+    <div class="img-zoom clip-reveal aspect-[4/3] bg-gradient-to-br from-ink-800 to-ink-700 relative overflow-hidden">
+        {
+            project.thumbnail ? (
+                <img src={project.thumbnail} alt={project.title} class="w-full h-full object-cover img-blur-up" x-data="imgLoad" loading="lazy" decoding="async" />
+            ) : (
+                <ProjectPlaceholder title={project.title} subtitle={project.subtitle} />
+            )
+        }
+        <!-- Hover overlay -->
+        <div class="absolute inset-0 bg-gradient-to-t from-ink-950 via-ink-950/40 to-transparent opacity-60 group-hover:opacity-90 transition-opacity duration-500"></div>
+        <!-- Hover arrow -->
+        <div class="absolute top-3 left-3 size-10 rounded-full bg-brand-500 grid place-items-center text-white opacity-0 group-hover:opacity-100 -translate-y-2 group-hover:translate-y-0 transition-all duration-500">
+            <i class="fas fa-arrow-right"></i>
+        </div>
+        {
+            project.featured && (
+                <span class="absolute top-3 right-3 pill bg-brand-500/30 border-brand-500/60 text-white backdrop-blur">
+                    <i class="fas fa-star"></i> Featured
+                </span>
+            )
+        }
+    </div>
+    <div class="p-6 tilt-inner">
+        <h3 class="font-display text-xl text-white group-hover:text-brand-500 transition-colors duration-300">{project.title}</h3>
+        {project.subtitle && <p class="text-sm text-ink-400 mt-1">{project.subtitle}</p>}
+        <p class="text-sm text-ink-300 mt-3 line-clamp-2">{project.shortDescription}</p>
+
+        <div class="flex flex-wrap gap-1.5 mt-4">
+            {shownTech.map((tech: any) => <span class="pill">{tech.name}</span>)}
+            {extraTech > 0 && <span class="pill">+{extraTech}</span>}
+        </div>
+
+        {
+            (project.appStoreUrl || project.playStoreUrl) && (
+                <div class="mt-4 flex gap-2">
+                    {project.appStoreUrl && (
+                        <span class="pill bg-ink-900 border-ink-600 text-ink-300 text-xs">
+                            <i class="fab fa-apple"></i> iOS
+                        </span>
+                    )}
+                    {project.playStoreUrl && (
+                        <span class="pill bg-ink-900 border-ink-600 text-ink-300 text-xs">
+                            <i class="fab fa-google-play"></i> Android
+                        </span>
+                    )}
+                </div>
+            )
+        }
+    </div>
+</a>

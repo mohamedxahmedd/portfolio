@@ -1,0 +1,16 @@
+---
+import { profile } from '../../../data/profile.js';
+import { paragraphs } from '../../../lib/format.js';
+---
+
+<section id="about" class="section">
+    <div class="container-x grid lg:grid-cols-2 gap-12 items-start">
+        <div class="reveal reveal-left">
+            <p class="section-eyebrow">About me</p>
+            <h2 x-data="wordReveal" class="section-title">Crafting mobile experiences <span class="text-gradient-brand">that matter</span></h2>
+        </div>
+        <div class="reveal reveal-right text-ink-300 leading-relaxed text-base space-y-6">
+            {paragraphs(profile.bio).map((p) => <p>{p}</p>)}
+        </div>
+    </div>
+</section>

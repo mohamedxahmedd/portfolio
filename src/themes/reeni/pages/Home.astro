@@ -1,0 +1,29 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../sections/Hero.astro';
+import About from '../sections/About.astro';
+import Career from '../sections/Career.astro';
+import Skills from '../sections/Skills.astro';
+import Services from '../sections/Services.astro';
+import TechMarquee from '../sections/TechMarquee.astro';
+import FeaturedProjects from '../sections/FeaturedProjects.astro';
+import Process from '../sections/Process.astro';
+import Testimonials from '../sections/Testimonials.astro';
+import CtaBanner from '../sections/CtaBanner.astro';
+import Contact from '../sections/Contact.astro';
+import { profile } from '../../../data/profile.js';
+---
+
+<BaseLayout title={profile.name}>
+    <Hero />
+    <About />
+    <Career />
+    <Skills />
+    <Services />
+    <TechMarquee />
+    <FeaturedProjects />
+    <Process />
+    <Testimonials />
+    <CtaBanner />
+    <Contact />
+</BaseLayout>

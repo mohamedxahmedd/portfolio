@@ -1,0 +1,55 @@
+---
+/*
+ * <head> metadata shared by every theme: title, description, canonical,
+ * Open Graph / Twitter tags and the schema.org Person JSON-LD.
+ */
+import { siteConfig } from '../../config/site.js';
+import { profile } from '../../data/profile.js';
+
+interface Props {
+    /** Page title; the site title + tagline are appended automatically. */
+    title?: string;
+    description?: string;
+    /** Absolute or root-relative image path for social previews. */
+    image?: string | null;
+    themeColor: string;
+}
+
+const { title, description = siteConfig.description, image, themeColor } = Astro.props;
+
+const fullTitle = [title ?? siteConfig.title, siteConfig.tagline].filter(Boolean).join(' · ');
+// No trailing slash, matching how Vercel serves pages (vercel.json: trailingSlash false).
+const path = Astro.url.pathname.length > 1 ? Astro.url.pathname.replace(/\/$/, '') : '/';
+const canonical = Astro.site ? new URL(path, Astro.site).href : null;
+// Pages without their own image (e.g. a project with no thumbnail) share your photo.
+const shareImage = image || profile.photo;
+const imageUrl = shareImage && Astro.site ? new URL(shareImage, Astro.site).href : null;
+
+const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    name: profile.name,
+    jobTitle: profile.jobTitle,
+    address: profile.location,
+    ...(Astro.site ? { url: Astro.site.href } : {}),
+    sameAs: profile.socials.map((s) => s.url),
+};
+---
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>{fullTitle}</title>
+<meta name="description" content={description} />
+<meta name="author" content={profile.name} />
+<meta name="theme-color" content={themeColor} />
+{canonical && <link rel="canonical" href={canonical} />}
+
+<meta property="og:type" content="website" />
+<meta property="og:title" content={title ?? siteConfig.title} />
+<meta property="og:description" content={description} />
+{canonical && <meta property="og:url" content={canonical} />}
+{imageUrl && <meta property="og:image" content={imageUrl} />}
+<meta name="twitter:card" content={imageUrl ? 'summary_large_image' : 'summary'} />
+
+<link rel="sitemap" href="/sitemap.xml" />
+<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />

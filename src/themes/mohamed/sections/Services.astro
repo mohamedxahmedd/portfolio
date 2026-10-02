@@ -1,0 +1,59 @@
+---
+import Column from '../components/Column.astro';
+import { profile } from '../../../data/profile.js';
+import { pad2 } from '../../../lib/format.js';
+
+const icons = ['icon-pen-nib-solid', 'icon-ribbon-solid', 'icon-crop-alt-solid', 'icon-chess-knight-solid'];
+---
+
+<div class="section-services" id="services">
+    <Column>
+        <div class="section-services-inner">
+            <div class="text-body-2 dot-before subtitle">My Services</div>
+            <div class="services-wrap accordion-wrap" id="accordion-services">
+                {
+                    profile.services.map((service, i) => (
+                        <div
+                            class:list={['item accordion-item', i === 0 ? 'active' : 'collapsed']}
+                            data-bs-toggle="collapse"
+                            role="button"
+                            data-bs-target={`#collapse-services-${i}`}
+                            aria-expanded={i === 0 ? 'true' : 'false'}
+                            aria-controls={`collapse-services-${i}`}
+                        >
+                            <div class="heading accordion-head">
+                                <div class="icon">
+                                    <i class={icons[i % icons.length]} />
+                                </div>
+                                <div class="text-display-2 title fw-medium">
+                                    <div class="split-text effect-right">{service.title}</div>
+                                    <span class="text-body-1">({pad2(i + 1)})</span>
+                                </div>
+                            </div>
+                            <div id={`collapse-services-${i}`} class:list={['accordion-collapse collapse', i === 0 && 'show']} data-bs-parent="#accordion-services">
+                                <div class="list-text">
+                                    {service.features?.length ? (
+                                        service.features.map((feature) => <div class="text sub-heading">{feature}</div>)
+                                    ) : (
+                                        <div class="text sub-heading">{service.tagline ?? service.description}</div>
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+                    ))
+                }
+            </div>
+            <div class="more-infor">
+                <div class="worldwide text-body-2">
+                    <i class="icon icon-global"></i>
+                    Available to <span>Worldwide</span>
+                </div>
+                <a class="text-body-1 link" href="#contact">
+                    Contact me
+                    <i class="icon icon-arrow-top-right"></i>
+                </a>
+            </div>
+        </div>
+    </Column>
+</div>
+<div class="box-gradient1 img_bg-2"></div>

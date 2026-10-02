@@ -1,7 +1,0 @@
-User-agent: *
-Allow: /
-Disallow: /admin
-Disallow: /livewire
-Disallow: /api
-
-Sitemap: /sitemap.xml

@@ -1,0 +1,54 @@
+---
+import ContactForm from '../components/ContactForm.astro';
+import { profile } from '../../../data/profile.js';
+import { mailtoHref, telHref, whatsappHref } from '../../../lib/format.js';
+
+const { contact } = profile;
+const channels = [
+    contact.email && { href: mailtoHref(contact.email), icon: 'fas fa-envelope', label: 'Email', value: contact.email },
+    contact.whatsapp && { href: whatsappHref(contact.whatsapp), icon: 'fab fa-whatsapp', label: 'WhatsApp', value: 'Chat on WhatsApp', external: true },
+    contact.phone && { href: telHref(contact.phone), icon: 'fas fa-phone', label: 'Phone', value: contact.phone },
+    profile.location && { icon: 'fas fa-map-marker-alt', label: 'Location', value: profile.location },
+].filter(Boolean);
+---
+
+<section id="contact" class="section relative overflow-hidden">
+    <div class="orb top-0 left-0 size-[30rem] bg-brand-500/15" style="animation-delay: -8s"></div>
+    <div class="container-x grid lg:grid-cols-2 gap-12 items-start relative">
+        <div class="reveal reveal-left">
+            <p class="section-eyebrow">Get in touch</p>
+            <h2 x-data="wordReveal" class="section-title">Got a project? <span class="text-gradient-brand">Let's talk.</span></h2>
+            <p class="mt-6 text-ink-300 leading-relaxed">
+                I'm always open to discussing new opportunities, freelance work, or just chatting about Flutter and mobile-app architecture. Drop me a message and I'll respond within 24 hours.
+            </p>
+
+            <div class="mt-8 space-y-4 stagger">
+                {
+                    channels.map((c) => {
+                        const Tag = c.href ? 'a' : 'div';
+                        return (
+                            <Tag
+                                href={c.href}
+                                target={c.external ? '_blank' : undefined}
+                                rel={c.external ? 'noopener' : undefined}
+                                class="flex items-center gap-4 group"
+                            >
+                                <div class:list={['size-12 shrink-0 rounded-full bg-brand-500/10 grid place-items-center text-brand-500', c.href && 'group-hover:bg-brand-500 group-hover:text-white group-hover:rotate-6 transition-all duration-300']}>
+                                    <i class={c.icon} />
+                                </div>
+                                <div class="min-w-0">
+                                    <p class="text-xs uppercase tracking-wider text-ink-500">{c.label}</p>
+                                    <p class:list={['text-white break-all', c.href && 'group-hover:text-brand-500 transition-colors']}>{c.value}</p>
+                                </div>
+                            </Tag>
+                        );
+                    })
+                }
+            </div>
+        </div>
+
+        <div class="card lift reveal reveal-right">
+            <ContactForm />
+        </div>
+    </div>
+</section>

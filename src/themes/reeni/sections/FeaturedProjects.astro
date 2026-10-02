@@ -1,0 +1,24 @@
+---
+import ProjectCard from '../components/ProjectCard.astro';
+import { getHomeProjects } from '../../../lib/portfolio.js';
+
+const projects = getHomeProjects();
+---
+
+<section id="projects" class="section">
+    <div class="container-x">
+        <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-14 reveal">
+            <div>
+                <p class="section-eyebrow">Selected work</p>
+                <h2 x-data="wordReveal" class="section-title">Mobile Apps Built with <span class="text-gradient-brand">Flutter</span></h2>
+            </div>
+            <a href="/projects" class="btn-ghost self-start md:self-auto" x-data="magnetic(0.15)">
+                <span>View all projects <i class="fas fa-arrow-right"></i></span>
+            </a>
+        </div>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 stagger">
+            {projects.map((project) => <ProjectCard project={project} />)}
+        </div>
+    </div>
+</section>

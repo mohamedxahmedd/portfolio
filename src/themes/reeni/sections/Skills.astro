@@ -1,0 +1,45 @@
+---
+import { profile } from '../../../data/profile.js';
+---
+
+<section id="skills" class="section">
+    <div class="container-x">
+        <div class="text-center mb-14 reveal">
+            <p class="section-eyebrow">My toolkit</p>
+            <h2 x-data="wordReveal" class="section-title">Skills & <span class="text-gradient-brand">Expertise</span></h2>
+        </div>
+
+        <div class="grid lg:grid-cols-2 gap-8 stagger">
+            {
+                profile.skills.map((group) => (
+                    <div x-data="cardFx(5)" class="tilt card lift glow-border">
+                        <div class="flex items-center gap-3 mb-6 tilt-inner">
+                            {group.icon && (
+                                <div class="size-12 rounded-xl bg-brand-500/10 grid place-items-center text-brand-500 text-xl depth-2">
+                                    <i class={group.icon} />
+                                </div>
+                            )}
+                            <h3 class="font-display text-2xl text-white">{group.category}</h3>
+                        </div>
+                        <div class="space-y-5">
+                            {group.items.map((skill) => (
+                                <div x-data="{ shown: false }" x-intersect.once="shown = true">
+                                    <div class="flex justify-between items-center mb-2">
+                                        <span class="text-ink-200 font-medium flex items-center gap-2">
+                                            {skill.icon && <i class={`${skill.icon} text-brand-500`} />}
+                                            {skill.name}
+                                        </span>
+                                        <span class="text-brand-500 text-sm font-semibold tabular-nums">{skill.level}%</span>
+                                    </div>
+                                    <div class="progress-bar-track">
+                                        <div class="progress-bar-fill" style="width: 0%" :style={`{ width: shown ? '${skill.level}%' : '0%' }`} />
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                ))
+            }
+        </div>
+    </div>
+</section>

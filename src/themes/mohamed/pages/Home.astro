@@ -1,0 +1,39 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionNav from '../components/SectionNav.astro';
+import ProfileCard from '../components/ProfileCard.astro';
+import Footer from '../components/Footer.astro';
+import Hero from '../sections/Hero.astro';
+import Experience from '../sections/Experience.astro';
+import Works from '../sections/Works.astro';
+import Services from '../sections/Services.astro';
+import About from '../sections/About.astro';
+import TechStack from '../sections/TechStack.astro';
+import Testimonials from '../sections/Testimonials.astro';
+import Contact from '../sections/Contact.astro';
+import { profile } from '../../../data/profile.js';
+
+const sections = ['home', 'experience', 'works', 'services', 'about', 'contact'];
+if (profile.testimonials?.length) sections.push('testimonial');
+---
+
+<BaseLayout title={profile.name}>
+    <SectionNav available={sections} />
+    <ProfileCard />
+
+    <div class="main-content relative">
+        <Hero />
+
+        <div class="wrapper-content relative overflow-hidden">
+            <Experience />
+            <Works />
+            <Services />
+            <About />
+            <TechStack />
+            <Testimonials />
+            <Contact />
+        </div>
+    </div>
+
+    <Footer full />
+</BaseLayout>

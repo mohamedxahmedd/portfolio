@@ -1,0 +1,17 @@
+---
+import Column from '../components/Column.astro';
+import { profile } from '../../../data/profile.js';
+import { truncate } from '../../../lib/format.js';
+---
+
+<section class="section-about" id="about">
+    <Column>
+        <div class="heading">
+            <div class="text-body-2 dot-before subtitle fw-medium">About Me</div>
+            <div>
+                <h2 class="fw-medium title text-color-change">{profile.headline}</h2>
+                <div class="text-body-2 text">{truncate(profile.bio, 380)}</div>
+            </div>
+        </div>
+    </Column>
+</section>

@@ -1,0 +1,36 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Column from '../components/Column.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+    page: { slug: string; title: string; excerpt?: string; body: string };
+}
+
+const { page } = Astro.props;
+---
+
+<BaseLayout title={page.title} description={page.excerpt}>
+    <div class="main-content relative">
+        <section class="section-hero" id="home">
+            <Column>
+                <div class="main-title">
+                    <h1 class="title split-text effect-right">{page.title}</h1>
+                    {page.excerpt && <div class="text-body-2 text" style="margin-top: 16px;">{page.excerpt}</div>}
+                </div>
+            </Column>
+        </section>
+
+        <div class="wrapper-content relative overflow-hidden">
+            <section class="section-about">
+                <Column>
+                    <div class="heading">
+                        <div class="text-body-2 text simple-page" set:html={page.body} />
+                    </div>
+                </Column>
+            </section>
+        </div>
+    </div>
+
+    <Footer href="/" label="Back to home" />
+</BaseLayout>
