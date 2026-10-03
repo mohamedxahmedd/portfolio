@@ -13,6 +13,30 @@
 /* Long email addresses wrap instead of overflowing the profile card. */
 .left-sidebar .infor .mail { overflow-wrap: anywhere; }
 
+/* ── Profile card on tablet/mobile ────────────── */
+/* Below 1150px the card is in the page flow, so it scrolls with the page
+   instead of keeping the desktop 100vh cap and scrolling on its own. */
+@media (max-width: 1150px) {
+    .left-sidebar { max-height: none; overflow: visible; }
+}
+/* Full-width card: keep the status pill clear of the fixed menu button above it. */
+@media (max-width: 991px) {
+    .left-sidebar .heading { padding-right: 48px; }
+}
+/* Phones: a compact card — square-cropped photo and tighter spacing. */
+@media (max-width: 767px) {
+    .left-sidebar { padding: 24px 20px; }
+    .left-sidebar .heading { margin-bottom: 20px; }
+    .left-sidebar .box-status { padding: 6px 16px; gap: 8px; }
+    .left-sidebar .box-status .text-body-1 { font-size: 14px; line-height: 20px; }
+    .left-sidebar .image { margin-bottom: 16px; }
+    .left-sidebar .image .avatar { max-width: 240px; aspect-ratio: 1 / 1; margin-bottom: -24px; }
+    .left-sidebar .image .avatar img { object-position: center 15%; }
+    .left-sidebar .image .signature { width: 160px; }
+    .left-sidebar .infor { margin-bottom: 16px; }
+    .left-sidebar .social-links { margin-bottom: 24px; }
+}
+
 /* ── Contact form ─────────────────────────────── */
 .form-contact .fiel-name,
 .form-contact .fiel-subject { margin-bottom: 37px; }
