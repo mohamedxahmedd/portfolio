@@ -24,34 +24,6 @@ const screens = (slug, count) => Array.from({ length: count }, (_, i) => `/proje
 
 export const projects = [
     {
-        slug: 'insptrack',
-        title: 'InspTrack',
-        subtitle: 'Equipment Records & QR Identity App',
-        shortDescription:
-            'A digital passport for heavy equipment and vehicles: every machine gets a QR identity with its owner, full maintenance and inspection history, and the next service date.',
-        description: `InspTrack gives every excavator, crane, forklift, truck or car one permanent digital record. Maintenance and inspection centers register equipment for its owner, and the app issues a unique Equipment ID, a QR code and a printable ID card — so scanning the machine opens its full history instead of a pile of paper invoices and WhatsApp photos.
-
-Each record holds the specs, owner and license details, photos and files, and a timeline of maintenance, inspection, calibration and accident events, each stamped with the company and engineer who added it. Private records sit behind a secret code, a public verification portal lets anyone confirm an equipment card, and reminders flag upcoming services and expiring licenses.
-
-Around the records, companies manage branches, employees, certificates, reports and a credits balance, while the community side adds an equipment marketplace, projects and jobs, a service-centers map, engineer and company profiles, and a feed for posts. The app is Arabic-first with full RTL and an English mode, and supports company and engineer accounts.`,
-        features: [
-            'QR identity & printable ID card',
-            'Maintenance & inspection timeline',
-            'Secret-protected records',
-            'Public verification portal',
-            'Service & license reminders',
-            'Branches, employees & certificates',
-            'Equipment marketplace & jobs',
-            'Service-centers map & community',
-        ],
-        role: 'Flutter Developer',
-        platform: 'iOS & Android',
-        technologies: ['Flutter', 'Dart', 'BLoC / Cubit', 'REST API', 'Push Notifications', 'Localization & RTL'],
-        thumbnail: '/projects/insptrack/thumbnail.webp',
-        images: screens('insptrack', 20),
-        featured: true,
-    },
-    {
         slug: 'banko',
         title: 'Banko',
         subtitle: 'Shipment Tracking & Freight App',
@@ -80,6 +52,115 @@ Payments show what is due per order in each currency; customers pay part or all 
         images: screens('banko', 18),
         featured: true,
         playStoreUrl: 'https://play.google.com/store/apps/details?id=com.bankoeg.app',
+    },
+    {
+        slug: 'habiby-clinic',
+        title: 'Habiby Clinic',
+        subtitle: 'Therapy & Healthcare Management App',
+        shortDescription:
+            'Book therapy sessions, follow a personal treatment plan, manage medications with reminders and keep a feelings diary — with secure payments.',
+        description: `Habiby Clinic connects clients with their therapists. Clients choose a clinic or online session, pick a doctor and an available time, and pay by card, cash or WhatsApp transfer; bookings can be rescheduled or cancelled and every appointment keeps its full details.
+
+Between sessions, the app follows the treatment plan: recommended sessions and services, diagnoses, homework assessments, a feelings diary with voice notes, current medicines with alarms and side-effect notes, and an editable medical history — in light and dark mode, with a focus on usability and data security.`,
+        features: [
+            'Clinic, doctor & time booking',
+            'Secure payments',
+            'Medication alarms & reminders',
+            'Feelings diary with voice notes',
+            'Homework assessments',
+            'Medical history records',
+            'Light & dark mode',
+        ],
+        role: 'Flutter Developer',
+        platform: 'Android',
+        technologies: ['Flutter', 'Dart', 'Firebase', 'Stripe', 'Push Notifications'],
+        thumbnail: '/projects/habiby-clinic/thumbnail.webp',
+        images: screens('habiby-clinic', 16),
+        featured: true,
+        playStoreUrl: 'https://play.google.com/store/apps/details?id=com.hossamxstudios.therapyapp',
+    },
+    {
+        slug: 'stockey-ess',
+        title: 'Stockey ESS',
+        subtitle: 'Employee Self-Service HR App',
+        shortDescription:
+            'A production HR app for attendance, payslips, leave and overtime requests, shifts, notifications and biometric login — in Arabic and English.',
+        description: `Stockey ESS puts everyday HR tasks in employees' pockets. Staff check in and out with GPS/geofenced attendance confirmed by a quick selfie, follow their working hours live, review a monthly attendance log with check-in/out photos, and submit attendance corrections when something is off.
+
+Shifts and official holidays, leave balances, leave and overtime requests, loan requests with instalment plans, and payslips with a full salary breakdown and PDF download are all a tap away, alongside company announcements and HR notifications. The app supports biometric login, full Arabic/English with RTL, offline synchronisation, and light, dark and deep-dark themes with selectable colour palettes.`,
+        features: [
+            'GPS / geofenced attendance with selfie',
+            'Attendance log & corrections',
+            'Shifts & holidays',
+            'Leave & overtime requests',
+            'Payslips, salary & loan requests',
+            'Announcements & notifications',
+            'Biometric login & offline sync',
+            'Arabic / English (RTL) · light, dark & deep dark',
+        ],
+        role: 'Flutter Developer',
+        platform: 'iOS & Android',
+        technologies: ['Flutter', 'Dart', 'GPS & Geofencing', 'Biometrics', 'Offline Sync', 'Localization & RTL'],
+        thumbnail: '/projects/stockey-ess/thumbnail.webp',
+        images: screens('stockey-ess', 18),
+        featured: true,
+        appStoreUrl: 'https://apps.apple.com/us/app/stockey-ess/id6763894968',
+        playStoreUrl: 'https://play.google.com/store/apps/details?id=com.hossamxstudios.stockey',
+    },
+    {
+        slug: 'insptrack',
+        title: 'InspTrack',
+        subtitle: 'Equipment Records & QR Identity App',
+        shortDescription:
+            'A digital passport for heavy equipment and vehicles: every machine gets a QR identity with its owner, full maintenance and inspection history, and the next service date.',
+        description: `InspTrack gives every excavator, crane, forklift, truck or car one permanent digital record. Maintenance and inspection centers register equipment for its owner, and the app issues a unique Equipment ID, a QR code and a printable ID card — so scanning the machine opens its full history instead of a pile of paper invoices and WhatsApp photos.
+
+Each record holds the specs, owner and license details, photos and files, and a timeline of maintenance, inspection, calibration and accident events, each stamped with the company and engineer who added it. Private records sit behind a secret code, a public verification portal lets anyone confirm an equipment card, and reminders flag upcoming services and expiring licenses.
+
+Around the records, companies manage branches, employees, certificates, reports and a credits balance, while the community side adds an equipment marketplace, projects and jobs, a service-centers map, engineer and company profiles, and a feed for posts. The app is Arabic-first with full RTL and an English mode, and supports company and engineer accounts.`,
+        features: [
+            'QR identity & printable ID card',
+            'Maintenance & inspection timeline',
+            'Secret-protected records',
+            'Public verification portal',
+            'Service & license reminders',
+            'Branches, employees & certificates',
+            'Equipment marketplace & jobs',
+            'Service-centers map & community',
+        ],
+        role: 'Flutter Developer',
+        platform: 'iOS & Android',
+        technologies: ['Flutter', 'Dart', 'BLoC / Cubit', 'REST API', 'Push Notifications', 'Localization & RTL'],
+        thumbnail: '/projects/insptrack/thumbnail.webp',
+        images: screens('insptrack', 20),
+        featured: true,
+    },
+    {
+        slug: 'yala-box',
+        title: 'Yala Box',
+        subtitle: 'Courier & Delivery Tracking App',
+        shortDescription:
+            'A bilingual courier app for assigned shipments: accept orders, move them through each delivery stage, navigate with GPS and collect payments.',
+        description: `Yala Box gives delivery drivers everything they need for their assigned shipments. Drivers see new orders, accept or reject them, and move each shipment through its lifecycle — processing, out for delivery, delivered and paid — with a clear progress tracker.
+
+Each order shows customer details with one-tap calling, the delivery route on the map with live GPS tracking, order items and totals. Instant notifications, delivery history and preferences, Arabic/English support and dark mode complete the experience.`,
+        features: [
+            'Assigned shipments',
+            'Accept / reject orders',
+            'Step-by-step delivery status',
+            'Live GPS tracking & maps',
+            'Payment collection',
+            'Call the customer in one tap',
+            'Arabic / English · dark mode',
+        ],
+        role: 'Flutter Developer',
+        platform: 'iOS & Android',
+        technologies: ['Flutter', 'Dart', 'Google Maps', 'GPS & Geofencing', 'Push Notifications', 'Localization & RTL'],
+        thumbnail: '/projects/yala-box/thumbnail.webp',
+        images: screens('yala-box', 7),
+        featured: true,
+        appStoreUrl: 'https://apps.apple.com/us/app/yala-box/id6757748993',
+        playStoreUrl: 'https://play.google.com/store/apps/details?id=com.hossamxstudios.yala_box',
     },
     {
         slug: 'excraft',
@@ -134,87 +215,6 @@ A wallet with coin rewards and investment-portfolio tracking, live chat with sup
         featured: true,
         appStoreUrl: 'https://apps.apple.com/eg/app/kenooz/id6477757090',
         playStoreUrl: 'https://play.google.com/store/apps/details?id=com.Hossam_x_studios_Kenooz',
-    },
-    {
-        slug: 'stockey-ess',
-        title: 'Stockey ESS',
-        subtitle: 'Employee Self-Service HR App',
-        shortDescription:
-            'A production HR app for attendance, payslips, leave and overtime requests, shifts, notifications and biometric login — in Arabic and English.',
-        description: `Stockey ESS puts everyday HR tasks in employees' pockets. Staff check in and out with GPS/geofenced attendance confirmed by a quick selfie, follow their working hours live, review a monthly attendance log with check-in/out photos, and submit attendance corrections when something is off.
-
-Shifts and official holidays, leave balances, leave and overtime requests, loan requests with instalment plans, and payslips with a full salary breakdown and PDF download are all a tap away, alongside company announcements and HR notifications. The app supports biometric login, full Arabic/English with RTL, offline synchronisation, and light, dark and deep-dark themes with selectable colour palettes.`,
-        features: [
-            'GPS / geofenced attendance with selfie',
-            'Attendance log & corrections',
-            'Shifts & holidays',
-            'Leave & overtime requests',
-            'Payslips, salary & loan requests',
-            'Announcements & notifications',
-            'Biometric login & offline sync',
-            'Arabic / English (RTL) · light, dark & deep dark',
-        ],
-        role: 'Flutter Developer',
-        platform: 'iOS & Android',
-        technologies: ['Flutter', 'Dart', 'GPS & Geofencing', 'Biometrics', 'Offline Sync', 'Localization & RTL'],
-        thumbnail: '/projects/stockey-ess/thumbnail.webp',
-        images: screens('stockey-ess', 18),
-        featured: true,
-        appStoreUrl: 'https://apps.apple.com/us/app/stockey-ess/id6763894968',
-        playStoreUrl: 'https://play.google.com/store/apps/details?id=com.hossamxstudios.stockey',
-    },
-    {
-        slug: 'yala-box',
-        title: 'Yala Box',
-        subtitle: 'Courier & Delivery Tracking App',
-        shortDescription:
-            'A bilingual courier app for assigned shipments: accept orders, move them through each delivery stage, navigate with GPS and collect payments.',
-        description: `Yala Box gives delivery drivers everything they need for their assigned shipments. Drivers see new orders, accept or reject them, and move each shipment through its lifecycle — processing, out for delivery, delivered and paid — with a clear progress tracker.
-
-Each order shows customer details with one-tap calling, the delivery route on the map with live GPS tracking, order items and totals. Instant notifications, delivery history and preferences, Arabic/English support and dark mode complete the experience.`,
-        features: [
-            'Assigned shipments',
-            'Accept / reject orders',
-            'Step-by-step delivery status',
-            'Live GPS tracking & maps',
-            'Payment collection',
-            'Call the customer in one tap',
-            'Arabic / English · dark mode',
-        ],
-        role: 'Flutter Developer',
-        platform: 'iOS & Android',
-        technologies: ['Flutter', 'Dart', 'Google Maps', 'GPS & Geofencing', 'Push Notifications', 'Localization & RTL'],
-        thumbnail: '/projects/yala-box/thumbnail.webp',
-        images: screens('yala-box', 7),
-        featured: true,
-        appStoreUrl: 'https://apps.apple.com/us/app/yala-box/id6757748993',
-        playStoreUrl: 'https://play.google.com/store/apps/details?id=com.hossamxstudios.yala_box',
-    },
-    {
-        slug: 'habiby-clinic',
-        title: 'Habiby Clinic',
-        subtitle: 'Therapy & Healthcare Management App',
-        shortDescription:
-            'Book therapy sessions, follow a personal treatment plan, manage medications with reminders and keep a feelings diary — with secure payments.',
-        description: `Habiby Clinic connects clients with their therapists. Clients choose a clinic or online session, pick a doctor and an available time, and pay by card, cash or WhatsApp transfer; bookings can be rescheduled or cancelled and every appointment keeps its full details.
-
-Between sessions, the app follows the treatment plan: recommended sessions and services, diagnoses, homework assessments, a feelings diary with voice notes, current medicines with alarms and side-effect notes, and an editable medical history — in light and dark mode, with a focus on usability and data security.`,
-        features: [
-            'Clinic, doctor & time booking',
-            'Secure payments',
-            'Medication alarms & reminders',
-            'Feelings diary with voice notes',
-            'Homework assessments',
-            'Medical history records',
-            'Light & dark mode',
-        ],
-        role: 'Flutter Developer',
-        platform: 'Android',
-        technologies: ['Flutter', 'Dart', 'Firebase', 'Stripe', 'Push Notifications'],
-        thumbnail: '/projects/habiby-clinic/thumbnail.webp',
-        images: screens('habiby-clinic', 16),
-        featured: true,
-        playStoreUrl: 'https://play.google.com/store/apps/details?id=com.hossamxstudios.therapyapp',
     },
     {
         slug: 'kenooz-worker',
