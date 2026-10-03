@@ -24,8 +24,66 @@
 .contact-direct { display: flex; flex-wrap: wrap; gap: 16px 32px; margin-top: 40px; }
 .contact-direct .link { word-break: break-all; }
 
+/* ── Works cards (home + /projects) ───────────── */
+/* The covers are 4:3 artwork with text, so each card shows the whole image and
+   puts the caption underneath instead of over it — at every screen size. */
+.works-wrap .works-item {
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 24px;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.03);
+    transition: border-color 0.4s ease;
+}
+.works-wrap .works-item:hover { border-color: rgba(243, 80, 15, 0.5); }
+.works-wrap .works-item .image { aspect-ratio: 4 / 3; border-radius: 0; }
+.works-wrap .works-item .image img { min-height: 0; }
+.works-wrap .works-item:hover .image img { transform: scale(1.03); }
+.works-wrap .works-item .content {
+    position: static;
+    align-items: center;
+    padding: 24px 24px 24px 32px;
+    border-radius: 0;
+    background: none;
+    backdrop-filter: none;
+}
+.works-wrap .works-item .content .infor { min-width: 0; padding-top: 0; }
+.works-wrap .works-item .content .title { margin-bottom: 0; }
+.works-wrap .works-item .content .btn-links { flex-shrink: 0; width: 88px; height: 88px; border-radius: 19px; font-size: 32px; }
+/* (The template sets h3 / .sub-heading sizes with !important below 992px, hence the !important here.) */
+@media (max-width: 991px) {
+    .works-wrap .works-item .content .title { font-size: 32px !important; line-height: 40px !important; }
+    .works-wrap .works-item .content .btn-links { width: 64px; height: 64px; border-radius: 16px; font-size: 26px; }
+}
+@media (max-width: 767px) {
+    .works-wrap .works-item { border-radius: 18px; }
+    .works-wrap .works-item .image img { min-height: 0; }
+    .works-wrap .works-item .content { padding: 16px 16px 18px 20px; }
+    .works-wrap .works-item .content .sub { font-size: 16px !important; line-height: 22px !important; }
+    .works-wrap .works-item .content .title { font-size: 26px !important; line-height: 32px !important; }
+    .works-wrap .works-item .content .btn-links { width: 52px; height: 52px; border-radius: 12px; font-size: 22px; }
+}
+
 /* ── "View all projects" under the home works list ── */
 .works-more { margin-top: 40px; }
+
+/* ── Image placeholders ───────────────────────── */
+/* Covers and screenshots fade in over a soft shimmer once loaded (theme.js).
+   Gated on .js (set by the preloader script) so images never hide without JavaScript. */
+.media-frame { background-color: #111; }
+.js .media-frame:not(.is-loaded) {
+    background-image: linear-gradient(100deg, transparent 35%, rgba(255, 255, 255, 0.05) 50%, transparent 65%);
+    background-size: 250% 100%;
+    animation: media-shimmer 1.5s ease-in-out infinite;
+}
+.js .media-frame img { opacity: 0; transition: opacity 0.7s ease, transform 0.9s cubic-bezier(0.2, 0.7, 0.2, 1); }
+.js .media-frame.is-loaded img { opacity: 1; }
+@keyframes media-shimmer {
+    from { background-position: 100% 0; }
+    to { background-position: 0 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .js .media-frame:not(.is-loaded) { animation: none; }
+}
 
 /* ── Tech stack slider icons (Font Awesome) ───── */
 .tech-stack-icon { display: grid; place-items: center; height: 140px; font-size: 64px; }
@@ -76,8 +134,27 @@
 .store-btn .store-label { display: flex; flex-direction: column; line-height: 1.1; }
 .store-btn small { opacity: 0.8; font-size: 10px; }
 .store-btn.is-ghost { background: transparent; border: 1px solid currentColor; }
-.project-cover { display: block; border-radius: 24px; overflow: hidden; }
-.project-cover img { width: 100%; height: auto; }
+/* Project cover: always the whole 4:3 image, tap to enlarge. */
+.project-cover { position: relative; display: block; aspect-ratio: 4 / 3; border-radius: 24px; overflow: hidden; }
+.project-cover img { width: 100%; height: 100%; object-fit: cover; }
+.project-cover:hover img { transform: scale(1.02); }
+.project-cover-zoom {
+    position: absolute;
+    right: 16px;
+    bottom: 16px;
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(10px);
+    color: #fff;
+    font-size: 16px;
+    transition: background 0.3s ease, transform 0.3s ease;
+}
+.project-cover:hover .project-cover-zoom { background: var(--primary); transform: scale(1.06); }
 .project-block { margin-top: 32px; }
 /* Description spans the full row; key features and tech stack sit side by side below it. */
 .section-about .heading:has(> .project-description) { flex-wrap: wrap; row-gap: 0; column-gap: 80px; }
@@ -87,6 +164,10 @@
 @media (max-width: 991px) {
     .section-about .heading > .project-block { flex-basis: 100%; }
 }
+@media (max-width: 767px) {
+    .project-cover { border-radius: 16px; }
+    .project-cover-zoom { right: 12px; bottom: 12px; width: 40px; height: 40px; font-size: 14px; }
+}
 .project-detail-list { display: flex; flex-wrap: wrap; gap: 8px 32px; margin-top: 24px; }
 .project-detail-list dt { color: #515151; font-weight: 400; }
 .project-detail-list dd { margin: 0; }
@@ -94,6 +175,11 @@
 .project-screens a { display: block; border-radius: 16px; overflow: hidden; aspect-ratio: 9 / 19.5; background: #151515; }
 .project-screens img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
 .project-screens a:hover img { transform: scale(1.05); }
+
+/* ── Lightbox (enlarged covers & screenshots): a dark frame instead of white ── */
+.lightboxOverlay { opacity: 0.96; }
+.lb-outerContainer { border-radius: 16px; background-color: #111; }
+.lightbox .lb-image { border-color: #111; border-radius: 12px; }
 
 /* ── Rich-text pages (privacy, terms) ─────────── */
 .simple-page { overflow-wrap: anywhere; }

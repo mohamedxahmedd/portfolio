@@ -7,6 +7,10 @@
 import '../styles/overrides.css';
 import SeoHead from '../../../components/shared/SeoHead.astro';
 import BackgroundVideo from '../components/BackgroundVideo.astro';
+import Preloader from '../components/Preloader.astro';
+// Inlined (not bundled) so the preloader is styled and running before any stylesheet loads.
+import preloaderStyles from '../styles/preloader.css?raw';
+import preloaderScript from '../scripts/preloader.js?raw';
 import { siteConfig } from '../../../config/site.js';
 import { asset } from '../icons.js';
 
@@ -19,6 +23,13 @@ interface Props {
 const { title, description, image } = Astro.props;
 
 const styles = ['css/bootstrap.css', 'css/styles.css', 'css/swiper-bundle.min.css', 'css/odometer.min.css', 'css/lightbox.min.css', 'css/animate.min.css', 'font/fonts.css', 'icons/icomoon/style.css'];
+
+// Rajdhani weights used above the fold (and by the preloader), fetched before fonts.css asks for them.
+const preloadFonts = [
+    'https://fonts.gstatic.com/s/rajdhani/v16/LDI2apCSOBg7S-QT7pasEfOreec.woff2', // 300
+    'https://fonts.gstatic.com/s/rajdhani/v16/LDIxapCSOBg7S-QT7p4HM-Y.woff2', // 400
+    'https://fonts.gstatic.com/s/rajdhani/v16/LDI2apCSOBg7S-QT7pb0EPOreec.woff2', // 500
+];
 
 const scripts = [
     'js/bootstrap.min.js',
@@ -45,7 +56,11 @@ const scripts = [
 <html lang={siteConfig.language}>
     <head>
         <SeoHead title={title} description={description} image={image} themeColor="#F3500F" />
+        <style is:inline set:html={preloaderStyles} />
+        <script is:inline set:html={preloaderScript} />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
+        {preloadFonts.map((href) => <link rel="preload" as="font" type="font/woff2" href={href} crossorigin />)}
         {styles.map((href) => <link rel="stylesheet" href={asset(href)} />)}
         <!-- Font Awesome: tech-stack icons come from src/data/technologies.js -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" referrerpolicy="no-referrer" />
@@ -56,6 +71,7 @@ const scripts = [
     </head>
 
     <body class="counter-scroll">
+        <Preloader />
         <div id="wrapper">
             <BackgroundVideo />
             <slot />

@@ -18,11 +18,11 @@ const kicker = project.subtitle ?? project.platform ?? 'Mobile App';
 <div class="works-item scrolling-effect effectLeft" data-project-card data-techs={project.technologies.map((t: any) => t.slug).join(' ')}>
     {
         imageLightbox ? (
-            <a class="image" href={cover} data-lightbox="works" data-title={project.title}>
+            <a class="image media-frame" href={cover} data-lightbox="works" data-title={project.title}>
                 <img src={cover} alt={project.title} loading="lazy" decoding="async" />
             </a>
         ) : (
-            <a class="image" href={project.url}>
+            <a class="image media-frame" href={project.url}>
                 <img src={cover} alt={project.title} loading="lazy" decoding="async" />
             </a>
         )
