@@ -7,6 +7,9 @@
 /* The template's colour/3D switcher panel isn't used. */
 .tf-setting-color { display: none !important; }
 
+/* The menu button stays on screen while scrolling (the template only fixes it below 1150px). */
+.tf-btn-menu { position: fixed; }
+
 /* Long email addresses wrap instead of overflowing the profile card. */
 .left-sidebar .infor .mail { overflow-wrap: anywhere; }
 
