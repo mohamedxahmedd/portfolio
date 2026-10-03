@@ -24,6 +24,34 @@ const screens = (slug, count) => Array.from({ length: count }, (_, i) => `/proje
 
 export const projects = [
     {
+        slug: 'insptrack',
+        title: 'InspTrack',
+        subtitle: 'Equipment Records & QR Identity App',
+        shortDescription:
+            'A digital passport for heavy equipment and vehicles: every machine gets a QR identity with its owner, full maintenance and inspection history, and the next service date.',
+        description: `InspTrack gives every excavator, crane, forklift, truck or car one permanent digital record. Maintenance and inspection centers register equipment for its owner, and the app issues a unique Equipment ID, a QR code and a printable ID card — so scanning the machine opens its full history instead of a pile of paper invoices and WhatsApp photos.
+
+Each record holds the specs, owner and license details, photos and files, and a timeline of maintenance, inspection, calibration and accident events, each stamped with the company and engineer who added it. Private records sit behind a secret code, a public verification portal lets anyone confirm an equipment card, and reminders flag upcoming services and expiring licenses.
+
+Around the records, companies manage branches, employees, certificates, reports and a credits balance, while the community side adds an equipment marketplace, projects and jobs, a service-centers map, engineer and company profiles, and a feed for posts. The app is Arabic-first with full RTL and an English mode, and supports company and engineer accounts.`,
+        features: [
+            'QR identity & printable ID card',
+            'Maintenance & inspection timeline',
+            'Secret-protected records',
+            'Public verification portal',
+            'Service & license reminders',
+            'Branches, employees & certificates',
+            'Equipment marketplace & jobs',
+            'Service-centers map & community',
+        ],
+        role: 'Flutter Developer',
+        platform: 'iOS & Android',
+        technologies: ['Flutter', 'Dart', 'BLoC / Cubit', 'REST API', 'Push Notifications', 'Localization & RTL'],
+        thumbnail: '/projects/insptrack/thumbnail.webp',
+        images: screens('insptrack', 20),
+        featured: true,
+    },
+    {
         slug: 'banko',
         title: 'Banko',
         subtitle: 'Shipment Tracking & Freight App',
