@@ -1,0 +1,174 @@
+/*
+ * Mohamed theme preloader. Inlined into <head> by BaseLayout so it is styled in
+ * the very first frame. Markup: components/Preloader.astro, logic: scripts/preloader.js.
+ */
+
+/* Hidden unless the head script ran (no JavaScript → no preloader). */
+.preloader { display: none; }
+.js .preloader {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 100000; /* above everything, the lightbox (10000) included */
+    touch-action: none;
+}
+.preloader.is-leaving { pointer-events: none; }
+
+/* While loading: no scrolling, and the template's WOW entrance animations wait for the reveal. */
+html.is-preloading { overflow: hidden; scrollbar-gutter: stable; }
+html.is-preloading .wow { animation-play-state: paused !important; }
+
+/* Two curtains: the dark one lifts first, the orange one follows a beat later. */
+.preloader-curtain {
+    position: absolute;
+    inset: 0;
+    background: #F3500F;
+    transition: transform 1s cubic-bezier(0.76, 0, 0.24, 1), border-radius 1s cubic-bezier(0.76, 0, 0.24, 1);
+}
+.preloader-curtain:not(.is-accent) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background:
+        radial-gradient(60% 45% at 50% 50%, rgba(243, 80, 15, 0.13), transparent 70%),
+        #050505;
+    color: #fff;
+}
+.preloader.is-leaving .preloader-curtain {
+    transform: translateY(-102%);
+    border-radius: 0 0 50% 50% / 0 0 14vh 14vh;
+}
+.preloader.is-leaving .preloader-curtain.is-accent { transition-delay: 0.08s; }
+
+.preloader-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 24px;
+    text-align: center;
+    transition: opacity 0.4s ease, transform 0.6s cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+.preloader-mark {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: clamp(92px, 24vw, 124px);
+    aspect-ratio: 1;
+    margin-bottom: clamp(22px, 4vh, 32px);
+    animation: preloader-pop 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+.preloader-ring {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+}
+.preloader-ring circle { fill: none; stroke-width: 1.5; }
+.preloader-ring .track { stroke: rgba(255, 255, 255, 0.1); }
+.preloader-ring .bar {
+    stroke: #F3500F;
+    stroke-linecap: round;
+    stroke-dasharray: 100;
+    stroke-dashoffset: 100;
+}
+.preloader-logo { width: 30%; height: auto; }
+
+.preloader-name {
+    font: 500 clamp(26px, 6vw, 40px) / 1.1 "Rajdhani", ui-sans-serif, system-ui, sans-serif;
+    letter-spacing: 0.01em;
+    animation: preloader-rise 0.9s 0.12s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+.preloader-role {
+    margin-top: 10px;
+    font: 500 clamp(11px, 2.8vw, 13px) / 1.4 "Rajdhani", ui-sans-serif, system-ui, sans-serif;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.5);
+    animation: preloader-rise 0.9s 0.24s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.preloader-foot {
+    position: absolute;
+    left: clamp(20px, 5vw, 56px);
+    right: clamp(20px, 5vw, 56px);
+    bottom: calc(clamp(20px, 5vh, 48px) + env(safe-area-inset-bottom, 0px));
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    font-family: "Rajdhani", ui-sans-serif, system-ui, sans-serif;
+    color: rgba(255, 255, 255, 0.5);
+    transition: opacity 0.4s ease, transform 0.6s cubic-bezier(0.76, 0, 0.24, 1);
+    animation: preloader-fade 0.8s 0.3s ease both;
+}
+.preloader-label {
+    padding-bottom: 0.6em;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+}
+.preloader-count {
+    font-size: clamp(64px, 16vw, 132px);
+    font-weight: 300;
+    line-height: 0.78;
+    letter-spacing: -0.04em;
+    color: #fff;
+    font-variant-numeric: tabular-nums;
+}
+.preloader-count sup {
+    top: 0;
+    margin-left: 0.06em;
+    font-size: 0.32em;
+    vertical-align: top;
+    letter-spacing: 0;
+    color: #F3500F;
+}
+
+.preloader-line {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.06);
+    transition: opacity 0.3s ease;
+}
+.preloader-line span {
+    display: block;
+    height: 100%;
+    background: #F3500F;
+    transform: scaleX(0);
+    transform-origin: left center;
+}
+
+/* Done counting: the content drifts up and fades, then the curtains lift. */
+.preloader.is-done .preloader-inner,
+.preloader.is-done .preloader-foot { opacity: 0; transform: translateY(-28px); }
+.preloader.is-done .preloader-line { opacity: 0; }
+
+/* Later pages of the same visit: just the mark, a short curtain. */
+.preloader-quick .preloader-name,
+.preloader-quick .preloader-role,
+.preloader-quick .preloader-foot { display: none; }
+.preloader-quick .preloader-mark { margin-bottom: 0; animation-duration: 0.5s; }
+.preloader-quick .preloader-ring .bar { transition: stroke-dashoffset 0.35s ease; }
+.preloader-quick .preloader-line span { transition: transform 0.35s ease; }
+.preloader-quick .preloader-curtain { transition-duration: 0.7s; }
+.preloader-quick .preloader.is-leaving .preloader-curtain.is-accent { transition-delay: 0.05s; }
+
+@keyframes preloader-pop { from { opacity: 0; transform: scale(0.7); } }
+@keyframes preloader-rise { from { opacity: 0; transform: translateY(16px); } }
+@keyframes preloader-fade { from { opacity: 0; } }
+
+@media (prefers-reduced-motion: reduce) {
+    .preloader *,
+    .preloader-curtain { animation: none !important; transition: none !important; }
+    .preloader.is-leaving { opacity: 0; transition: opacity 0.3s ease; }
+    .preloader.is-leaving .preloader-curtain { transform: none; border-radius: 0; }
+}
+
+@media print {
+    .preloader { display: none !important; }
+}
