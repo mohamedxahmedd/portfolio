@@ -54,6 +54,6 @@ export const siteConfig = {
      *                     fails, the form falls back to the email-app method.
      */
     contactForm: {
-        endpoint: null,
+        endpoint: 'https://formspree.io/f/xwlpgveq',
     },
 };
